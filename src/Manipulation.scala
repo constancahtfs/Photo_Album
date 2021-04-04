@@ -14,6 +14,7 @@ case class QLeaf[A, B](value: B) extends QTree[A]
 // Empty tree
 case object QEmpty extends QTree[Nothing]
 
+
 // Bit Map
 case class BitMap[A](matrix: List[List[A]])
 
@@ -25,27 +26,64 @@ object Manipulation {
   type Coords = (Point, Point)
   type Section = (Coords, Color)
 
-  // Recebe um array multidimensional (matriz) de cores
-  // verificar se a cor e a mesma de um vertice ao outro
-  // se sim -> folha + cor
-  // se nao -> dividir em 4 e repetir o processo p cada quadrante
-  //def makeQTree(b:BitMap[Int]): QTree[] = {}
+
+  def makeQTree(bitMap: BitMap[Int]): QTree[Coords] = {
+    subMakeQTree(bitMap.matrix, Utils.verticesCoordinates(bitMap.matrix))
+  }
+
+  def subMakeQTree(matrix:List[List[Int]], coords: Coords): QTree[Coords] = {
+    if(matrix.size == 0 || matrix.head.size == 0)
+      QEmpty
+    else
+      if(Utils.sameColor(matrix))
+        QLeaf(coords, matrix.head.head)
+      else
+        QNode(coords,
+          subMakeQTree(Utils.sliceList(matrix)(Utils.rawQuad1),Utils.trueQuad1(coords)),
+          subMakeQTree(Utils.sliceList(matrix)(Utils.rawQuad2),Utils.trueQuad2(coords)),
+          subMakeQTree(Utils.sliceList(matrix)(Utils.rawQuad3),Utils.trueQuad3(coords)),
+          subMakeQTree(Utils.sliceList(matrix)(Utils.rawQuad4),Utils.trueQuad4(coords)),
+        )
+  }
+
+  def printColors(l: List[Int])={
+    for( x <- l ){
+      var rgb = ImageUtil.decodeRgb(x).toList
+      println(rgb)
+    }
+  }
 
   // Testing
   def main(args: Array[String]): Unit = {
+    val bigList = List(List(1,1,6), List(2,2,2), List(3,3,3))
 
     // Path da imagem
-    val path = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\rgbColors.png";
+    val path = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\3by3.png";
 
     // Get color for each pixel
     val imageColors = ImageUtil.readColorImage(path)
 
     // Convert to list of lists
     var converted = Utils.toListOfLists(imageColors.toList)
+    //println(converted)
 
     // Create bitmap and print it
     val bitMap = BitMap(converted)
-    println(bitMap)
+    var tree = makeQTree(bitMap);
+    //println(tree)
+
+
+    val quad4 = Utils.sliceList(converted)(Utils.rawQuad4)
+    println(quad4)
+
+    val samecolor = Utils.sameColor(quad4)
+    println(samecolor)
+
+    //val l = List(-16735512,-20791,-14503604,-32985)
+    //val l = List(-12629812,-3947581,-4621737)
+    //printColors(l)
+
+
 
   }
 }
