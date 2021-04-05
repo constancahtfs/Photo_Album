@@ -112,4 +112,19 @@ object Utils {
     }
   }
 
+  def occupiesAllSpace[A](l: List[List[A]], c: Coords): Boolean = {
+    val rows = c._2._1 - c._1._1
+    val cols = c._2._2 - c._1._2
+    if((l.size - 1) == rows && (l.head.size - 1) == cols)
+      true
+    else
+      false
+  }
+
+  def isColorStain(l: List[List[Int]], c: Coords): Boolean = {
+    if(sameColor(l) && occupiesAllSpace(l, c))
+      true
+    else
+      false
+  }
 }
