@@ -127,6 +127,20 @@ object Manipulation {
     list.updated(line,list(line) ::: List.fill(width)(value))
   }
 
+  def mirrorV(tree: QTree[Coords]): QTree[Coords] = {
+    tree match {
+      case QEmpty => QEmpty
+      case QNode(c,fi,se,th,fo) => QNode(c,mirrorV(th),mirrorV(fo),mirrorV(fi),mirrorV(se))
+    }
+  }
+
+  def mirrorH(tree: QTree[Coords]): QTree[Coords] = {
+    tree match {
+      case QEmpty => QEmpty
+      case QNode(c,fi,se,th,fo) => QNode(c,mirrorH(se),mirrorH(fi),mirrorH(fo),mirrorH(th))
+    }
+  }
+
   def test4by4() ={
     println(" -- TESTE DE UMA IMAGEM DE 4 POR 4 PIXEIS -- ")
     task1("C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by4.png")
