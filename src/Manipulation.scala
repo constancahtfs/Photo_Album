@@ -27,207 +27,30 @@ object Manipulation {
         )
   }
 
-  def printColors(l: List[Int])={
-
-    for( x <- l ){
-      var rgb = ImageUtil.decodeRgb(x).toList
-      println(rgb)
-    }
-  }
-
   def makeBitMap(tree: QTree[Coords]): List[List[Int]] = {
-    val imgCoords = getRootCoords(tree)
+    val imgCoords = Utils.getRootCoords(tree)
     val newList = List.fill(imgCoords._2._1 + 1)(List())
     subMakeBitMap(tree, newList)
   }
 
-
   def subMakeBitMap(t: QTree[Coords], list:List[List[Int]]): List[List[Int]] = {
-    val type_ = getType(t)
+    val type_ = Utils.getType(t)
     type_ match{
       case "QLeaf" =>
-        val c = getRootCoords(t)
-        println("---QLeaf " + c + " vai dar updateMatrix")
-        updateMatrix(c, ImageUtil.encodeRgb(getLeafColor(t).getRed(), getLeafColor(t).getGreen(), getLeafColor(t).getBlue()), c._2._1, list)
+        val c = Utils.getRootCoords(t)
+        Utils.updateMatrix(c,
+          ImageUtil.encodeRgb(
+            Utils.getLeafColor(t).getRed(),
+            Utils.getLeafColor(t).getGreen(),
+            Utils.getLeafColor(t).getBlue()), c._2._1, list)
       case "QNode" =>
-        val ab = getRootCoords(t)
-        println("QNode " + ab + " vai dar makebitmap nos 4 quads")
-        val a = subMakeBitMap(getQuad1(t),list)
-        val b = subMakeBitMap(getQuad2(t),a)
-        val c = subMakeBitMap(getQuad3(t),b)
-        subMakeBitMap(getQuad4(t),c)
+        val ab = Utils.getRootCoords(t)
+        val a = subMakeBitMap(Utils.getQuad1(t),list)
+        val b = subMakeBitMap(Utils.getQuad2(t),a)
+        val c = subMakeBitMap(Utils.getQuad3(t),b)
+        subMakeBitMap(Utils.getQuad4(t),c)
       case "QEmpty" => list
     }
   }
 
-
-
-  def getLeafColor(leaf: QTree[Coords]): Color = {
-    leaf match {
-      case QLeaf(section: Section) =>
-        section match {
-          case (coords, color) => color
-        }
-    }
-  }
-
-  def getQuad1(tree: QTree[Coords]): QTree[Coords] = {
-    tree match {
-      case QNode(c,fi,se,th,fo) => fi
-      case _ => tree
-    }
-  }
-
-  def getQuad2(tree: QTree[Coords]): QTree[Coords] = {
-    tree match {
-      case QNode(c,fi,se,th,fo) => se
-      case _ => tree
-    }
-  }
-
-  def getQuad3(tree: QTree[Coords]): QTree[Coords] = {
-    tree match {
-      case QNode(c,fi,se,th,fo) => th
-      case _ => tree
-    }
-  }
-
-  def getQuad4(tree: QTree[Coords]): QTree[Coords] = {
-    tree match {
-      case QNode(c,fi,se,th,fo) => fo
-      case _ => tree
-    }
-  }
-
-  def getRootCoords(tree: QTree[Coords]): Coords =  {
-    tree match {
-      case QNode(c,fi,se,th,fo) => c
-      case QLeaf(section: Section) =>
-        section match {
-          case (coords, color) => coords
-      }
-    }
-  }
-
-  def getType(tree: QTree[Coords])={
-    tree match {
-      case QLeaf(section)  => "QLeaf"
-      case QNode(c,fi,se,th,fo) => "QNode"
-      case QEmpty => "QEmpty"
-      case _ => "Unknown"
-    }
-  }
-
-  def updateMatrix(coords: Coords, color: Int, counter: Int, list:List[List[Int]]): List[List[Int]] = {
-    if(counter != (coords._1._1 - 1)) {
-      val newMatrix = matrixAppend(counter, coords._2._2 - coords._1._2 + 1, color, list)
-      updateMatrix(coords, color, counter - 1, newMatrix)
-    }
-    else
-      list
-  }
-
-  def matrixAppend(line:Int, width:Int,value:Int, list:List[List[Int]]): List[List[Int]] = {
-    list.updated(line,list(line) ::: List.fill(width)(value))
-  }
-
-
-
-  def rotate90DegreesRight(t:QTree[Coords], coords: Coords): QTree[Coords] = {
-    t match {
-      case QLeaf((c, color)) => QLeaf((coords,color))
-      case QEmpty => QEmpty
-      case QNode(c, fi, se, th, fo) =>
-        QNode(coords,
-          rotate90DegreesRight(th,Utils.trueQuad1(coords)),
-          rotate90DegreesRight(fi,Utils.trueQuad2(coords)),
-          rotate90DegreesRight(fo,Utils.trueQuad3(coords)),
-          rotate90DegreesRight(se,Utils.trueQuad4(coords)))
-    }
-  }
-
-  def rotate90DegreesLeft(t:QTree[Coords], coords: Coords): QTree[Coords] = {
-    t match {
-      case QLeaf((c, color)) => QLeaf((coords,color))
-      case QEmpty => QEmpty
-      case QNode(c, fi, se, th, fo) =>
-        println("Nó: " + t)
-        println("first: " + fi)
-        println("second: " + se)
-        println("third: " + th)
-        println("fourth: " + fo)
-        QNode(coords,
-          rotate90DegreesLeft(se,Utils.trueQuad1(coords)),
-          rotate90DegreesLeft(fo,Utils.trueQuad2(coords)),
-          rotate90DegreesLeft(fi,Utils.trueQuad3(coords)),
-          rotate90DegreesLeft(th,Utils.trueQuad4(coords)))
-    }
-  }
-
-  def test4by4() ={
-    println(" -- TESTE DE UMA IMAGEM DE 4 POR 4 PIXEIS -- ")
-    task1("C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by4.png")
-  }
-
-  def test3by3() ={
-    println(" -- TESTE DE UMA IMAGEM DE 3 POR 3 PIXEIS -- ")
-    task1("C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\3by3.png")
-  }
-
-  def task1(path: String): Unit ={
-
-    println(" **** Bitmap -> QTree *** ")
-
-    // Get color for each pixel
-    val imageColors = ImageUtil.readColorImage(path)
-
-    // Convert to list of lists
-    var converted = Utils.toListOfLists(imageColors.toList)
-    println(converted)
-
-    // Create bitmap out of the list of lists
-    val bitMap = BitMap(converted)
-
-    // Create a tree out of the bitmap
-    var tree = makeQTree(bitMap);
-    println(tree)
-
-    println(" **** QTree -> Bitmap *** ")
-
-    val bitMap2 = makeBitMap(tree)
-    println(bitMap2)
-  }
-
-  // Testing
-  def main(args: Array[String]): Unit = {
-
-    //test4by4()
-    println(" -- TESTE DE UMA IMAGEM DE 4 POR 4 PIXEIS -- ")
-
-    println(" **** Bitmap -> QTree *** ")
-
-    // Get color for each pixel
-    val imageColors = ImageUtil.readColorImage("C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\3by3.png")
-
-    // Convert to list of lists
-    var converted = Utils.toListOfLists(imageColors.toList)
-    println(converted)
-
-    // Create bitmap out of the list of lists
-    val bitMap = BitMap(converted)
-
-    // Create a tree out of the bitmap
-    var tree = makeQTree(bitMap);
-    println("original: " + tree)
-
-    var rotatedImg = rotate90DegreesRight(tree, Utils.verticesCoordinates(bitMap.matrix))
-    var rotatedImg2 = rotate90DegreesLeft(tree, Utils.verticesCoordinates(bitMap.matrix))
-    println("90 direita: " + rotatedImg)
-    println("90 esquerda: " + rotatedImg2)
-
-    val bitMap2 = makeBitMap(rotatedImg)
-    val bitMap3 = makeBitMap(rotatedImg2)
-    println("90 direita: " + bitMap2)
-    println("90 esquerda: " + bitMap3)
-  }
 }

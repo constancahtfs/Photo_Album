@@ -1,4 +1,6 @@
-import Manipulation.Coords
+import java.awt.Color
+
+import Manipulation.{Coords, Section}
 
 object Utils {
 
@@ -16,6 +18,76 @@ object Utils {
     else // number is odd
       number + 1 // make it even
   }
+
+  def getLeafColor(leaf: QTree[Coords]): Color = {
+    leaf match {
+      case QLeaf(section: Section) =>
+        section match {
+          case (coords, color) => color
+        }
+    }
+  }
+
+  def getQuad1(tree: QTree[Coords]): QTree[Coords] = {
+    tree match {
+      case QNode(c,fi,se,th,fo) => fi
+      case _ => tree
+    }
+  }
+
+  def getQuad2(tree: QTree[Coords]): QTree[Coords] = {
+    tree match {
+      case QNode(c,fi,se,th,fo) => se
+      case _ => tree
+    }
+  }
+
+  def getQuad3(tree: QTree[Coords]): QTree[Coords] = {
+    tree match {
+      case QNode(c,fi,se,th,fo) => th
+      case _ => tree
+    }
+  }
+
+  def getQuad4(tree: QTree[Coords]): QTree[Coords] = {
+    tree match {
+      case QNode(c,fi,se,th,fo) => fo
+      case _ => tree
+    }
+  }
+
+  def getRootCoords(tree: QTree[Coords]): Coords =  {
+    tree match {
+      case QNode(c,fi,se,th,fo) => c
+      case QLeaf(section: Section) =>
+        section match {
+          case (coords, color) => coords
+        }
+    }
+  }
+
+  def getType(tree: QTree[Coords])={
+    tree match {
+      case QLeaf(section)  => "QLeaf"
+      case QNode(c,fi,se,th,fo) => "QNode"
+      case QEmpty => "QEmpty"
+      case _ => "Unknown"
+    }
+  }
+
+  def updateMatrix(coords: Coords, color: Int, counter: Int, list:List[List[Int]]): List[List[Int]] = {
+    if(counter != (coords._1._1 - 1)) {
+      val newMatrix = matrixAppend(counter, coords._2._2 - coords._1._2 + 1, color, list)
+      updateMatrix(coords, color, counter - 1, newMatrix)
+    }
+    else
+      list
+  }
+
+  def matrixAppend(line:Int, width:Int,value:Int, list:List[List[Int]]): List[List[Int]] = {
+    list.updated(line,list(line) ::: List.fill(width)(value))
+  }
+
 
   // otimize this
 
