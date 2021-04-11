@@ -74,24 +74,28 @@ object Manipulation {
   def getQuad1(tree: QTree[Coords]): QTree[Coords] = {
     tree match {
       case QNode(c,fi,se,th,fo) => fi
+      case _ => tree
     }
   }
 
   def getQuad2(tree: QTree[Coords]): QTree[Coords] = {
     tree match {
       case QNode(c,fi,se,th,fo) => se
+      case _ => tree
     }
   }
 
   def getQuad3(tree: QTree[Coords]): QTree[Coords] = {
     tree match {
       case QNode(c,fi,se,th,fo) => th
+      case _ => tree
     }
   }
 
   def getQuad4(tree: QTree[Coords]): QTree[Coords] = {
     tree match {
       case QNode(c,fi,se,th,fo) => fo
+      case _ => tree
     }
   }
 
@@ -125,6 +129,39 @@ object Manipulation {
 
   def matrixAppend(line:Int, width:Int,value:Int, list:List[List[Int]]): List[List[Int]] = {
     list.updated(line,list(line) ::: List.fill(width)(value))
+  }
+
+
+
+  def rotate90DegreesRight(t:QTree[Coords], coords: Coords): QTree[Coords] = {
+    t match {
+      case QLeaf((c, color)) => QLeaf((coords,color))
+      case QEmpty => QEmpty
+      case QNode(c, fi, se, th, fo) =>
+        QNode(coords,
+          rotate90DegreesRight(th,Utils.trueQuad1(coords)),
+          rotate90DegreesRight(fi,Utils.trueQuad2(coords)),
+          rotate90DegreesRight(fo,Utils.trueQuad3(coords)),
+          rotate90DegreesRight(se,Utils.trueQuad4(coords)))
+    }
+  }
+
+  def rotate90DegreesLeft(t:QTree[Coords], coords: Coords): QTree[Coords] = {
+    t match {
+      case QLeaf((c, color)) => QLeaf((coords,color))
+      case QEmpty => QEmpty
+      case QNode(c, fi, se, th, fo) =>
+        println("Nó: " + t)
+        println("first: " + fi)
+        println("second: " + se)
+        println("third: " + th)
+        println("fourth: " + fo)
+        QNode(coords,
+          rotate90DegreesLeft(se,Utils.trueQuad1(coords)),
+          rotate90DegreesLeft(fo,Utils.trueQuad2(coords)),
+          rotate90DegreesLeft(fi,Utils.trueQuad3(coords)),
+          rotate90DegreesLeft(th,Utils.trueQuad4(coords)))
+    }
   }
 
   def test4by4() ={
@@ -164,7 +201,33 @@ object Manipulation {
   // Testing
   def main(args: Array[String]): Unit = {
 
-    test4by4()
+    //test4by4()
+    println(" -- TESTE DE UMA IMAGEM DE 4 POR 4 PIXEIS -- ")
 
+    println(" **** Bitmap -> QTree *** ")
+
+    // Get color for each pixel
+    val imageColors = ImageUtil.readColorImage("C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\3by3.png")
+
+    // Convert to list of lists
+    var converted = Utils.toListOfLists(imageColors.toList)
+    println(converted)
+
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+
+    // Create a tree out of the bitmap
+    var tree = makeQTree(bitMap);
+    println("original: " + tree)
+
+    var rotatedImg = rotate90DegreesRight(tree, Utils.verticesCoordinates(bitMap.matrix))
+    var rotatedImg2 = rotate90DegreesLeft(tree, Utils.verticesCoordinates(bitMap.matrix))
+    println("90 direita: " + rotatedImg)
+    println("90 esquerda: " + rotatedImg2)
+
+    val bitMap2 = makeBitMap(rotatedImg)
+    val bitMap3 = makeBitMap(rotatedImg2)
+    println("90 direita: " + bitMap2)
+    println("90 esquerda: " + bitMap3)
   }
 }
