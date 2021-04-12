@@ -1,11 +1,18 @@
 import java.awt.Color
 
+import Utils.{getQuad1, getQuad2, getQuad3, getQuad4, getRootCoords, isColorStain, rawQuad1, rawQuad2, rawQuad3, rawQuad4, sliceList, trueQ1, trueQ2, trueQ3, trueQ4, updateMatrix}
+
 object Manipulation {
 
-  // Important types
   type Point = (Int, Int)
   type Coords = (Point, Point)
   type Section = (Coords, Color)
+
+  /**********************************************************************
+   *
+   *                 TASK 1.1 - BitMap -> QTree (tested and working)
+   *
+   * *********************************************************************/
 
   def makeQTree(bitMap: BitMap[Int]): QTree[Coords] = {
     subMakeQTree(bitMap.matrix, Utils.verticesCoordinates(bitMap.matrix))
@@ -13,19 +20,32 @@ object Manipulation {
 
   def subMakeQTree(matrix:List[List[Int]], coords: Coords): QTree[Coords] = {
 
-    if(matrix.size == 0 || matrix.head.size == 0)  // If List()
+    if(matrix.size == 0 || matrix.head.size == 0) {  // If empty list
       QEmpty
-    else
-      if(Utils.isColorStain(matrix,coords))  // If it is the same color in all quadrant
+    } else {
+      if(isColorStain(matrix,coords)) {  // If it is the same color in all quadrant
         QLeaf((coords, new Color(matrix.head.head)))
-      else
+      } else {
+
+        // sliceList(matrix)(rawQuad) - Slice list in the respective quadrant
+        // trueQ(coords,matrix)       - Calculates the quadrant coordinates in
+        //                              relation to the parent image
+
         QNode(coords,
-          subMakeQTree(Utils.sliceList(matrix)(Utils.rawQuad1),Utils.trueQuad1(coords)),
-          subMakeQTree(Utils.sliceList(matrix)(Utils.rawQuad2),Utils.trueQuad2(coords)),
-          subMakeQTree(Utils.sliceList(matrix)(Utils.rawQuad3),Utils.trueQuad3(coords)),
-          subMakeQTree(Utils.sliceList(matrix)(Utils.rawQuad4),Utils.trueQuad4(coords)),
+          subMakeQTree(sliceList(matrix)(rawQuad1),trueQ1(coords, matrix)),
+          subMakeQTree(sliceList(matrix)(rawQuad2),trueQ2(coords, matrix)),
+          subMakeQTree(sliceList(matrix)(rawQuad3),trueQ3(coords, matrix)),
+          subMakeQTree(sliceList(matrix)(rawQuad4),trueQ4(coords, matrix)),
         )
+      }
+    }
   }
+
+  /**********************************************************************
+   *
+   *                 TASK 1.2 - QTree -> BitMap (tested and working)
+   *
+   * *********************************************************************/
 
   def makeBitMap(tree: QTree[Coords]): List[List[Int]] = {
     val imgCoords = Utils.getRootCoords(tree)
@@ -35,20 +55,27 @@ object Manipulation {
 
   def subMakeBitMap(t: QTree[Coords], list:List[List[Int]]): List[List[Int]] = {
     val type_ = Utils.getType(t)
+
     type_ match{
       case "QLeaf" =>
-        val c = Utils.getRootCoords(t)
-        Utils.updateMatrix(c,
+        val c = getRootCoords(t)
+        updateMatrix(c,
           ImageUtil.encodeRgb(
             Utils.getLeafColor(t).getRed(),
             Utils.getLeafColor(t).getGreen(),
             Utils.getLeafColor(t).getBlue()), c._2._1, list)
+
       case "QNode" =>
-        val ab = Utils.getRootCoords(t)
-        val a = subMakeBitMap(Utils.getQuad1(t),list)
-        val b = subMakeBitMap(Utils.getQuad2(t),a)
-        val c = subMakeBitMap(Utils.getQuad3(t),b)
-        subMakeBitMap(Utils.getQuad4(t),c)
+
+        // Must fill the matrix starting by the 1st quadrant,
+        // then 2nd, 3rd and 4th by this specific order
+        // Once it got to the fourth (last one) it can return
+
+        val a = subMakeBitMap(getQuad1(t),list)
+        val b = subMakeBitMap(getQuad2(t),a)
+        val c = subMakeBitMap(getQuad3(t),b)
+        subMakeBitMap(getQuad4(t),c)
+
       case "QEmpty" => list
     }
   }
