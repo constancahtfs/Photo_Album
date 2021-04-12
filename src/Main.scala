@@ -1,3 +1,4 @@
+import Effects.scale
 import Manipulation.{makeBitMap, makeQTree}
 
 object Main {
@@ -79,7 +80,12 @@ object Main {
 
   def task3(path: String): Unit ={
 
-    println("\n **** Under Construction *** \n")
+    val originalTree = makeQTree(BitMap(Utils.toListOfLists(ImageUtil.readColorImage(path).toList)))
+    println("Original: " + originalTree)
+    val treeScaleUp = scale(2,originalTree)
+    println("Scale Up: " + treeScaleUp)
+    val treeScaleDown = scale(0.5,treeScaleUp)
+    println("Scale Down: " + treeScaleDown)
 
   }
 
@@ -156,6 +162,13 @@ object Main {
 
   }
 
+  def task3Testing() = {
+    var img4by4 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by4.png"
+
+    println("\n-- 4 POR 4 --\n")
+    task3(img4by4)
+  }
+
   def task4Testing()={
     var img2by3 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\2by3.png"
 
@@ -181,7 +194,10 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    task2Testing()
+    //task1Testing()
+    //task2Testing()
+    //task3Testing()
+    //task4Testing()
 
   }
 }
