@@ -1,5 +1,5 @@
-import Effects.scale
 import Manipulation.{makeBitMap, makeQTree}
+import QTree.{mirrorH, mirrorV, rotate90DegreesLeft, rotate90DegreesRight, scale}
 
 object Main {
 
@@ -19,6 +19,13 @@ object Main {
    *          - Task 3 - Mirror                (declared in Effects)
    *
    * ************************************************************************************************************/
+
+  val img2by3 = getClass.getClassLoader.getResource("2by3.png").getPath;
+  val img3by3 = getClass.getClassLoader.getResource("3by3.png").getPath;
+  val img4by4 = getClass.getClassLoader.getResource("4by4.png").getPath;
+  val img4by5 = getClass.getClassLoader.getResource("4by5.png").getPath;
+  val img5by4 = getClass.getClassLoader.getResource("5by4.png").getPath;
+  val img5by7 = getClass.getClassLoader.getResource("5by7.png").getPath;
 
   def task1(path: String): Unit ={
 
@@ -64,8 +71,8 @@ object Main {
 
     println("\n **** Espelhamento da Árvore *** \n")
 
-    var mirrorImgH = Effects.mirrorH(tree)
-    var mirrorImgV = Effects.mirrorV(tree)
+    var mirrorImgH = mirrorH(tree)
+    var mirrorImgV = mirrorV(tree)
     println("[Tree] Espelho Horizontal: " + mirrorImgH)
     println("[Tree] Espelho Vertical: " + mirrorImgV)
 
@@ -109,8 +116,8 @@ object Main {
 
     println("\n **** Rotações da Árvore *** \n")
 
-    var rotatedImg = Effects.rotate90DegreesRight(tree)
-    var rotatedImg2 = Effects.rotate90DegreesLeft(tree)
+    var rotatedImg = rotate90DegreesRight(tree)
+    var rotatedImg2 = rotate90DegreesLeft(tree)
     println("[Tree] 90 direita: \n" + rotatedImg + "\n")
     println("[Tree] 90 esquerda: \n" + rotatedImg2 + "\n")
 
@@ -130,14 +137,6 @@ object Main {
   }
 
   def task1Testing()={
-    var img2by3 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\2by3.png"
-
-    var img3by3 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\3by3.png"
-    var img4by4 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by4.png"
-
-    var img4by5 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by5.png"
-    var img5by4 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\5by4.png"
-    var img5by7 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\5by7.png"
 
     println("\n-- 2 POR 3 --\n")
     task1(img2by3)
@@ -155,29 +154,17 @@ object Main {
 
   def task2Testing()={
 
-    var img4by4 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by4.png"
-
     println("\n-- 4 POR 4 --\n")
     task2(img4by4)
 
   }
 
   def task3Testing() = {
-    var img4by4 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by4.png"
-
     println("\n-- 4 POR 4 --\n")
     task3(img4by4)
   }
 
   def task4Testing()={
-    var img2by3 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\2by3.png"
-
-    var img3by3 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\3by3.png"
-    var img4by4 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by4.png"
-
-    var img4by5 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\4by5.png"
-    var img5by4 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\5by4.png"
-    var img5by7 = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\5by7.png"
 
     println("\n-- 2 POR 3 --\n")
     task4(img2by3)
@@ -194,10 +181,10 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    //task1Testing()
-    //task2Testing()
-    //task3Testing()
-    //task4Testing()
+    task1Testing()
+    task2Testing()
+    task3Testing()
+    task4Testing()
 
   }
 }

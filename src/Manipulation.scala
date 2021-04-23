@@ -1,6 +1,7 @@
 import java.awt.Color
 
-import Utils.{getQuad1, getQuad2, getQuad3, getQuad4, getRootCoords, isColorStain, rawQuad1, rawQuad2, rawQuad3, rawQuad4, sliceList, trueQ1, trueQ2, trueQ3, trueQ4, updateMatrix}
+import QLeaf.getLeafColor
+import Utils.{getQuad1, getQuad2, getQuad3, getQuad4, getRootCoords, getType, isColorStain, rawQuad1, rawQuad2, rawQuad3, rawQuad4, sliceList, trueQ1, trueQ2, trueQ3, trueQ4, updateMatrix}
 
 object Manipulation {
 
@@ -54,16 +55,19 @@ object Manipulation {
   }
 
   def subMakeBitMap(t: QTree[Coords], list:List[List[Int]]): List[List[Int]] = {
-    val type_ = Utils.getType(t)
+    val type_ = getType(t)
 
     type_ match{
+
+      case "QEmpty" => list
+
       case "QLeaf" =>
         val c = getRootCoords(t)
         updateMatrix(c,
           ImageUtil.encodeRgb(
-            Utils.getLeafColor(t).getRed(),
-            Utils.getLeafColor(t).getGreen(),
-            Utils.getLeafColor(t).getBlue()), c._2._1, list)
+            getLeafColor(t).getRed(),
+            getLeafColor(t).getGreen(),
+            getLeafColor(t).getBlue()), c._2._1, list)
 
       case "QNode" =>
 
@@ -76,7 +80,7 @@ object Manipulation {
         val c = subMakeBitMap(getQuad3(t),b)
         subMakeBitMap(getQuad4(t),c)
 
-      case "QEmpty" => list
+
     }
   }
 

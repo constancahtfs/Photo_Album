@@ -1,5 +1,6 @@
 import java.awt.Color
 
+
 import Manipulation.{Coords, Section}
 
 object Utils {
@@ -16,6 +17,19 @@ object Utils {
    *                 General Utils (needs optimization)
    *
    * *********************************************************************/
+
+  /*
+  * Get the type of the given tree
+  *
+  * */
+  def getType(tree: QTree[Coords])={
+    tree match {
+      case QEmpty => "QEmpty"
+      case QLeaf(section)  => "QLeaf"
+      case QNode(c,fi,se,th,fo) => "QNode"
+      case _ => "Unknown"
+    }
+  }
 
   /*
   *  Gets vertices coordinates of the given matrix
@@ -259,32 +273,6 @@ object Utils {
   }
 
   /*
-  * Gets the color of the given leaf
-  *
-  * */
-  def getLeafColor(leaf: QTree[Coords]): Color = {
-    leaf match {
-      case QLeaf(section: Section) =>
-        section match {
-          case (coords, color) => color
-        }
-    }
-  }
-
-  /*
-  * Get the type of the given tree
-  *
-  * */
-  def getType(tree: QTree[Coords])={
-    tree match {
-      case QLeaf(section)  => "QLeaf"
-      case QNode(c,fi,se,th,fo) => "QNode"
-      case QEmpty => "QEmpty"
-      case _ => "Unknown"
-    }
-  }
-
-  /*
   *  Will update the given matrix with the given color in the given coordinates space
   *  The counter will indicate the stopping moment
   *
@@ -310,7 +298,6 @@ object Utils {
   def matrixAppend(line:Int, width:Int,value:Int, list:List[List[Int]]): List[List[Int]] = {
     list.updated(line,list(line) ::: List.fill(width)(value))
   }
-
 
   /**********************************************************************
    *
