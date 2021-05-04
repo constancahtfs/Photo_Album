@@ -1,5 +1,5 @@
 import Manipulation.{makeBitMap, makeQTree}
-import QTree.{mirrorH, mirrorV, rotate90DegreesLeft, rotate90DegreesRight, scale}
+import QTree.{mapColourEffect, mirrorH, mirrorV, noise, rotate90DegreesLeft, rotate90DegreesRight, scale}
 
 object Main {
 
@@ -35,14 +35,14 @@ object Main {
     val imageColors = ImageUtil.readColorImage(path)
 
     // Convert to list of lists
-    var converted = Utils.toListOfLists(imageColors.toList)
+    val converted = Utils.toListOfLists(imageColors.toList)
     println("[BitMap] original: \n" + converted)
 
     // Create bitmap out of the list of lists
     val bitMap = BitMap(converted)
 
     // Create a tree out of the bitmap
-    var tree = makeQTree(bitMap);
+    val tree = makeQTree(bitMap);
     println("[Tree] a partir do bitmap: \n" + tree)
 
     println("\n **** QTree -> Bitmap *** \n")
@@ -59,20 +59,20 @@ object Main {
     val imageColors = ImageUtil.readColorImage(path)
 
     // Convert to list of lists
-    var converted = Utils.toListOfLists(imageColors.toList)
+    val converted = Utils.toListOfLists(imageColors.toList)
     println("[BitMap] original: " + converted)
 
     // Create bitmap out of the list of lists
     val bitMap = BitMap(converted)
 
     // Create a tree out of the bitmap
-    var tree = makeQTree(bitMap);
+    val tree = makeQTree(bitMap);
     println("[Tree] original: " + tree)
 
     println("\n **** Espelhamento da Árvore *** \n")
 
-    var mirrorImgH = mirrorH(tree)
-    var mirrorImgV = mirrorV(tree)
+    val mirrorImgH = mirrorH(tree)
+    val mirrorImgV = mirrorV(tree)
     println("[Tree] Espelho Horizontal: " + mirrorImgH)
     println("[Tree] Espelho Vertical: " + mirrorImgV)
 
@@ -104,20 +104,20 @@ object Main {
     val imageColors = ImageUtil.readColorImage(path)
 
     // Convert to list of lists
-    var converted = Utils.toListOfLists(imageColors.toList)
+    val converted = Utils.toListOfLists(imageColors.toList)
     println("[BitMap] original: \n" + converted + "\n")
 
     // Create bitmap out of the list of lists
     val bitMap = BitMap(converted)
 
     // Create a tree out of the bitmap
-    var tree = makeQTree(bitMap);
+    val tree = makeQTree(bitMap);
     println("[Tree] original: \n" + tree + "\n")
 
     println("\n **** Rotações da Árvore *** \n")
 
-    var rotatedImg = rotate90DegreesRight(tree)
-    var rotatedImg2 = rotate90DegreesLeft(tree)
+    val rotatedImg = rotate90DegreesRight(tree)
+    val rotatedImg2 = rotate90DegreesLeft(tree)
     println("[Tree] 90 direita: \n" + rotatedImg + "\n")
     println("[Tree] 90 esquerda: \n" + rotatedImg2 + "\n")
 
@@ -132,7 +132,32 @@ object Main {
 
   def task5(path: String): Unit ={
 
-    println("\n **** Under Construction *** \n")
+    println("\n **** Bitmap -> QTree *** \n")
+
+    // Get color for each pixel
+    val imageColors = ImageUtil.readColorImage(path)
+
+    // Convert to list of lists
+    var converted = Utils.toListOfLists(imageColors.toList)
+    println("[BitMap] original: \n" + converted + "\n")
+
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    println("[Tree] original: \n" + tree + "\n")
+
+    println("\n **** Efeitos *** \n")
+
+    val noiseTree = mapColourEffect(noise,tree)
+    println("[Tree] Noise: \n" + noiseTree + "\n")
+
+    println("\n **** Efeitos -> BitMap *** \n")
+
+    val bitMap2 = makeBitMap(noiseTree)
+    println("[BitMap] original: \n" + converted + "\n")
+    println("[BitMap] Noise: \n" + bitMap2 + "\n")
 
   }
 
@@ -180,11 +205,28 @@ object Main {
     task4(img5by7)
   }
 
+  def task5Testing()={
+
+    println("\n-- 2 POR 3 --\n")
+    task5(img2by3)
+    println("\n-- 3 POR 3 --\n")
+    task5(img3by3)
+    println("\n-- 4 POR 4 --\n")
+    task5(img4by4)
+    println("\n-- 4 POR 5 --\n")
+    task5(img4by5)
+    println("\n-- 5 POR 4 --\n")
+    task5(img5by4)
+    println("\n-- 5 POR 7 --\n")
+    task5(img5by7)
+  }
+
   def main(args: Array[String]): Unit = {
-    task1Testing()
-    task2Testing()
-    task3Testing()
-    task4Testing()
+    //task1Testing()
+    //task2Testing()
+    //task3Testing()
+    //task4Testing()
+    task5Testing()
 
   }
 }

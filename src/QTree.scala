@@ -1,3 +1,5 @@
+import java.awt.Color
+
 import Manipulation.{Coords, Section}
 import Utils.{getCoords, rotate90degCoords, rotateCoords90Left, rotateCoords90Right}
 
@@ -155,6 +157,40 @@ object QTree{
         subMirrorH(fi, Utils.trueQuad2(coordsTemp)),
         subMirrorH(fo, Utils.trueQuad3(coordsTemp)),
         subMirrorH(th, Utils.trueQuad4(coordsTemp)))
+    }
+  }
+
+  /**********************************************************************
+   *
+   *                 TASK 5 - Map Effects
+   *
+   * *********************************************************************/
+
+  /*
+   *  Impure noise function
+   *  */
+  def noise(color: Color): Color = {
+    val rnd = new scala.util.Random
+    val randNumber = 0 + rnd.nextInt( (255 - 0) + 1 ) // Must be between 0 and 255
+
+    val a = color.getRed() + randNumber
+
+    println("\nRED: " + color.getRed() + " + " + randNumber + " = " + a)
+
+    new Color(color.getRed()   + randNumber,
+              color.getGreen() + randNumber,
+              color.getBlue()  + randNumber)
+  }
+
+  def mapColourEffect(f:Color => Color, tree:QTree[Coords]):QTree[Coords] = {
+    tree match {
+      case QEmpty => QEmpty
+      case QLeaf((c, color : Color)) => QLeaf((c,f(color)))
+      case QNode(c, fi, se, th, fo) => QNode(c,
+        mapColourEffect(f,fi),
+        mapColourEffect(f,se),
+        mapColourEffect(f,th),
+        mapColourEffect(f,fo))
     }
   }
 
