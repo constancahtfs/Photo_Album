@@ -1,5 +1,5 @@
 import Manipulation.{makeBitMap, makeQTree}
-import QTree.{mapColourEffect, mirrorH, mirrorV, noise, rotate90DegreesLeft, rotate90DegreesRight, scale}
+import QTree._
 
 object Main {
 
@@ -51,6 +51,7 @@ object Main {
     println("[BitMap] original vs [BitMap] a partir da árvore: \n" + converted + "\n" + bitMap2)
   }
 
+  // mirror
   def task2(path: String): Unit ={
 
     println("\n **** Bitmap -> QTree *** \n")
@@ -71,20 +72,21 @@ object Main {
 
     println("\n **** Espelhamento da Árvore *** \n")
 
-    val mirrorImgH = mirrorH(tree)
+    //val mirrorImgH = mirrorH(tree)
     val mirrorImgV = mirrorV(tree)
-    println("[Tree] Espelho Horizontal: " + mirrorImgH)
+    //println("[Tree] Espelho Horizontal: " + mirrorImgH)
     println("[Tree] Espelho Vertical: " + mirrorImgV)
 
     println("\n **** Espelhamento da Árvore -> Bitmap *** \n")
 
-    val bitMap4 = makeBitMap(mirrorImgH)
+    //val bitMap4 = makeBitMap(mirrorImgH)
     val bitMap5 = makeBitMap(mirrorImgV)
-    println("[BitMap] Espelho Horizontal: " + bitMap4)
+    //println("[BitMap] Espelho Horizontal: " + bitMap4)
     println("[BitMap] Espelho Vertical: " + bitMap5)
 
   }
 
+  // scale
   def task3(path: String): Unit ={
 
     val originalTree = makeQTree(BitMap(Utils.toListOfLists(ImageUtil.readColorImage(path).toList)))
@@ -96,6 +98,7 @@ object Main {
 
   }
 
+  // rotate
   def task4(path: String): Unit ={
 
     println("\n **** Bitmap -> QTree *** \n")
@@ -130,6 +133,7 @@ object Main {
     println("[BitMap] 90 esquerda: \n" + bitMap3 + "\n")
   }
 
+  // effects
   def task5(path: String): Unit ={
 
     println("\n **** Bitmap -> QTree *** \n")
@@ -182,6 +186,12 @@ object Main {
     println("\n-- 4 POR 4 --\n")
     task2(img4by4)
 
+    println("\n-- 5 POR 7 --\n")
+    task2(img5by7)
+
+    println("\n-- 5 POR 4 --\n")
+    task2(img5by4)
+
   }
 
   def task3Testing() = {
@@ -223,10 +233,10 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     //task1Testing()
-    //task2Testing()
+    task2Testing()
     //task3Testing()
     //task4Testing()
-    task5Testing()
+    //task5Testing()
 
   }
 }

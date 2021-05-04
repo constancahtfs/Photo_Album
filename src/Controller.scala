@@ -1,5 +1,7 @@
 import java.io.File
 
+import Manipulation.{makeBitMap, makeQTree}
+import QTree.{mirrorH, mirrorV, rotate90DegreesLeft, rotate90DegreesRight}
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.image.{Image, ImageView}
@@ -22,6 +24,14 @@ class Controller {
   private var nextButton: Button = _
   @FXML
   private var deleteButton: Button = _
+  @FXML
+  private var rotateImgRightButton: Button = _
+  @FXML
+  private var rotateImgLeftRightButton: Button = _
+  @FXML
+  private var invertImgHButton: Button = _
+  @FXML
+  private var invertImgVButton: Button = _
 
   private var images = List() : List[File]
   private var pointer = -1
@@ -68,6 +78,79 @@ class Controller {
       updateSlideShow()
     }
   }
+
+
+
+  def toListOfArrays(l: List[List[Int]]): List[Array[Int]] = {
+    l match{
+      case List() => List()
+      case (h::t) => h.toArray :: toListOfArrays(t)
+    }
+  }
+
+
+  def onRotateImgRightClicked() = {
+    // Get color for each pixel
+
+    val imageColors = ImageUtil.readColorImage(images(pointer).getAbsolutePath)
+    // Convert to list of lists
+    val converted = Utils.toListOfLists(imageColors.toList)
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    val rotatedImg = rotate90DegreesRight(tree)
+    val bitMap2 = makeBitMap(rotatedImg)
+    ImageUtil.writeImage(toListOfArrays(bitMap2).toArray, images(pointer).getAbsolutePath, "png")
+    updateSlideShow()
+  }
+
+  def onRotateImgLeftClicked() = {
+    // Get color for each pixel
+
+    val imageColors = ImageUtil.readColorImage(images(pointer).getAbsolutePath)
+    // Convert to list of lists
+    val converted = Utils.toListOfLists(imageColors.toList)
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    val rotatedImg = rotate90DegreesLeft(tree)
+    val bitMap2 = makeBitMap(rotatedImg)
+    ImageUtil.writeImage(toListOfArrays(bitMap2).toArray, images(pointer).getAbsolutePath, "png")
+    updateSlideShow()
+  }
+
+  def onInvertImgHClicked() = {
+
+    val imageColors = ImageUtil.readColorImage(images(pointer).getAbsolutePath)
+    // Convert to list of lists
+    val converted = Utils.toListOfLists(imageColors.toList)
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    val invertedImg = mirrorH(tree)
+    val bitMap2 = makeBitMap(invertedImg)
+    ImageUtil.writeImage(toListOfArrays(bitMap2).toArray, images(pointer).getAbsolutePath, "png")
+    updateSlideShow()
+  }
+
+  def onInvertImgVClicked() = {
+
+    val imageColors = ImageUtil.readColorImage(images(pointer).getAbsolutePath)
+    // Convert to list of lists
+    val converted = Utils.toListOfLists(imageColors.toList)
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    val invertedImg = mirrorV(tree)
+    val bitMap2 = makeBitMap(invertedImg)
+    ImageUtil.writeImage(toListOfArrays(bitMap2).toArray, images(pointer).getAbsolutePath, "png")
+    updateSlideShow()
+  }
+
 
   def updateSlideShow(): Unit ={
     if(prev >= 0 && prev < images.size)

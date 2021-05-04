@@ -77,6 +77,7 @@ object Utils {
 
   def getRootCoords(tree: QTree[Coords]): Coords =  {
     tree match {
+      case QEmpty => ((-1,-1),(-1,-1))
       case QNode(c,fi,se,th,fo) => c
       case QLeaf(section: Section) =>
         section match {

@@ -125,18 +125,24 @@ object QTree{
   *  Mirror the given tree vertically
   * */
   def mirrorV(tree:QTree[Coords]) : QTree[Coords] = {
-    subMirrorV(tree, Utils.getRootCoords(tree))
+      subMirrorV(tree, Utils.getRootCoords(tree)._2._1)
   }
 
-  def subMirrorV(tree: QTree[Coords], coordsTemp: Coords): QTree[Coords] = {
+
+
+  def subMirrorV(tree: QTree[Coords], lastRow: Int): QTree[Coords] = {
     tree match {
       case QEmpty => QEmpty
-      case QLeaf((c, color)) => QLeaf((coordsTemp,color))
-      case QNode(c,fi,se,th,fo) => QNode(coordsTemp,
-        subMirrorV(th, Utils.trueQuad1(coordsTemp)),
-        subMirrorV(fo, Utils.trueQuad2(coordsTemp)),
-        subMirrorV(fi, Utils.trueQuad3(coordsTemp)),
-        subMirrorV(se, Utils.trueQuad4(coordsTemp)))
+      case QLeaf((c: Coords, color)) =>
+        val newCoords = ((lastRow - c._2._1,c._1._2),(lastRow - c._1._1, c._2._2))
+        QLeaf((newCoords,color))
+      case QNode(c, fi, se, th, fo) =>
+        val newCoords = ((lastRow - c._2._1,c._1._2),(lastRow - c._1._1, c._2._2))
+        QNode(newCoords,
+          subMirrorV(th, lastRow),
+          subMirrorV(fo, lastRow),
+          subMirrorV(fi, lastRow),
+          subMirrorV(se, lastRow))
 
     }
   }
@@ -145,20 +151,25 @@ object QTree{
   *  Mirror the given tree horizontally
   * */
   def mirrorH(tree:QTree[Coords]) : QTree[Coords] = {
-    subMirrorH(tree, Utils.getRootCoords(tree))
+    subMirrorH(tree, Utils.getRootCoords(tree)._2._2)
   }
 
-  def subMirrorH(tree: QTree[Coords], coordsTemp: Coords): QTree[Coords] = {
+  def subMirrorH(tree: QTree[Coords], lastCol: Int): QTree[Coords] = {
     tree match {
       case QEmpty => QEmpty
-      case QLeaf((c, color)) => QLeaf((coordsTemp,color))
-      case QNode(c, fi, se, th, fo) => QNode(coordsTemp,
-        subMirrorH(se, Utils.trueQuad1(coordsTemp)),
-        subMirrorH(fi, Utils.trueQuad2(coordsTemp)),
-        subMirrorH(fo, Utils.trueQuad3(coordsTemp)),
-        subMirrorH(th, Utils.trueQuad4(coordsTemp)))
+      case QLeaf((c: Coords, color)) =>
+        val newCoords = ((c._1._1,lastCol - c._2._2),(c._2._1,lastCol - c._1._2))
+        QLeaf((newCoords,color))
+      case QNode(c, fi, se, th, fo) =>
+        val newCoords = ((c._1._1,lastCol - c._2._2),(c._2._1,lastCol - c._1._2))
+        QNode(newCoords,
+          subMirrorH(se, lastCol),
+          subMirrorH(fi, lastCol),
+          subMirrorH(fo, lastCol),
+          subMirrorH(th, lastCol))
     }
   }
+
 
   /**********************************************************************
    *

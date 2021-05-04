@@ -24,14 +24,16 @@
                         </HBox>
                         <ButtonBar layoutX="101.0" layoutY="13.0" prefHeight="30.0" prefWidth="451.0">
                            <buttons>
-                            <Button minWidth="43.0" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: #f7a440; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #f7a440; -fx-font-family: Verdana; -fx-font-size: 14;" text="🔄" />
-                              <Button mnemonicParsing="false" style="-fx-background-color: #f7a440; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #f7a440; -fx-font-family: Verdana; -fx-font-size: 14;" text="↔" />
-                              <Button mnemonicParsing="false" prefHeight="21.0" prefWidth="77.0" style="-fx-background-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #aaaaaa; -fx-font-family: Verdana; -fx-pref-height: 30;" text="Sépia" />
-                              <Button mnemonicParsing="false" style="-fx-font-family: Verdana; -fx-background-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #aaaaaa; -fx-pref-height: 30;" text="Contraste" />
-                              <Button mnemonicParsing="false" style="-fx-font-family: Verdana; -fx-background-color: #aaaaaa; -fx-border-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-pref-height: 30;" text="Ruído" />
+                            <Button fx:id="rotateImgRightButton" minWidth="43.0" mnemonicParsing="false" onMouseClicked="#onRotateImgRightClicked" prefHeight="30.0" style="-fx-background-color: #f7a440; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #f7a440; -fx-font-family: Verdana; -fx-font-size: 14;" text="🔄" />
+                              <Button fx:id="invertImgHButton" mnemonicParsing="false" onMouseClicked="#onInvertImgHClicked" style="-fx-background-color: #f7a440; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #f7a440; -fx-font-family: Verdana; -fx-font-size: 14;" text="↔" />
+                              <Button fx:id="filterSepiaButton" mnemonicParsing="false" prefHeight="21.0" prefWidth="77.0" style="-fx-background-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #aaaaaa; -fx-font-family: Verdana; -fx-pref-height: 30;" text="Sépia" />
+                              <Button fx:id="filterContrastButton" mnemonicParsing="false" style="-fx-font-family: Verdana; -fx-background-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #aaaaaa; -fx-pref-height: 30;" text="Contraste" />
+                              <Button fx:id="filterNoiseButton" mnemonicParsing="false" style="-fx-font-family: Verdana; -fx-background-color: #aaaaaa; -fx-border-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-pref-height: 30;" text="Ruído" />
                            </buttons>
                         </ButtonBar>
                         <Button fx:id="deleteButton" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onDeleteClicked" style="-fx-pref-height: 30; -fx-pref-width: 30; -fx-background-color: red; -fx-text-fill: white; -fx-border-radius: 0;" text="✖" />
+                        <Button fx:id="rotateImgLeftRightButton" layoutX="64.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#onRotateImgLeftClicked" text="Button" />
+                        <Button fx:id="invertImgVButton" layoutX="227.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#onInvertImgVClicked" text="Button" />
                      </children>
                   </AnchorPane>
             </content>
