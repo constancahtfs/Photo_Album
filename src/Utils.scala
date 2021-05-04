@@ -1,7 +1,20 @@
 import java.awt.Color
 
-
 import Manipulation.{Coords, Section}
+
+import scala.annotation.tailrec
+import scala.util.Random
+
+case class MyRandom(seed: Long) extends Random {
+  def NextInt: (Int, Random) = {
+    val newSeed = (seed * 0x5DEECE66DL + 0xBL) &
+      0xFFFFFFFFFFFFL
+    val nextRandom = MyRandom(newSeed)
+    val n = (newSeed >>> 16).toInt
+    (n, nextRandom)
+  }
+}
+
 
 object Utils {
 
@@ -374,6 +387,7 @@ object Utils {
   *  Checks if the given list has the same number in all positions
   *
   * */
+  @tailrec
   def sameColor(l: List[List[Int]]): Boolean = {
     l match{
       case List() => true
@@ -381,7 +395,7 @@ object Utils {
       case (h::t) => if(subSameColor(h) && h == t.head) sameColor(t) else false
     }
   }
-
+  @tailrec
   def subSameColor(l: List[Int]): Boolean = {
     l match{
       case List() => true

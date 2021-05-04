@@ -182,15 +182,47 @@ object QTree{
    *  */
   def noise(color: Color): Color = {
     val rnd = new scala.util.Random
-    val randNumber = 0 + rnd.nextInt( (255 - 0) + 1 ) // Must be between 0 and 255
+    val randNumber = ((0 + rnd.nextInt( (100 - 0) + 1 )).toDouble )/100 // Must be between 0 and 255
 
-    val a = color.getRed() + randNumber
+    new Color((color.getRed()   * randNumber).toInt,
+              (color.getGreen() * randNumber).toInt,
+              (color.getBlue()  * randNumber).toInt)
+  }
 
-    println("\nRED: " + color.getRed() + " + " + randNumber + " = " + a)
 
-    new Color(color.getRed()   + randNumber,
-              color.getGreen() + randNumber,
-              color.getBlue()  + randNumber)
+
+  //Efeito sepia
+  def sepia(color: Color): Color = {
+    //Calcular os novos componentes RGB segundo a fórmula. Nenhuma componente pode ser superior a 255.
+    val newRed = if((color.getRed * 0.393 + color.getGreen * 0.769 + color.getBlue * 0.189) > 255)
+      255 else (color.getRed * 0.393 + color.getGreen * 0.769 + color.getBlue * 0.189).toInt
+    val newGreen = if((color.getRed * 0.349 + color.getGreen * 0.686 + color.getBlue * 0.168) > 255)
+      255 else (color.getRed * 0.349 + color.getGreen * 0.686 + color.getBlue * 0.168).toInt
+    val newBlue = if((color.getRed * 0.272 + color.getGreen * 0.534 + color.getBlue * 0.131) > 255)
+      255 else (color.getRed * 0.272 + color.getGreen * 0.534 + color.getBlue * 0.131).toInt
+
+    color match {
+      case null => null
+      case color => Color.getColor("",ImageUtil.encodeRgb(newRed,newGreen, newBlue))
+    }
+  }
+
+
+  def contrast(color: Color) : Color= {
+    // Fator de contraste = 1.2 (20%)
+    val newRed = if((1.2*(color.getRed -128) +128)  >255) 255
+    else if (1.2*(color.getRed -128) +128 <0) 0
+    else (1.2*(color.getRed -128) +128)
+    val newGreen = if((1.2*(color.getGreen -128) +128) >255) 255
+    else if (1.2*(color.getGreen -128) +128 < 0) 0
+    else (1.2*(color.getGreen -128) +128)
+    val newBlue= if((1.2*(color.getBlue -128) +128)  >255) 255
+    else if ((1.2*(color.getBlue -128) +128) < 0) 0
+    else (1.2*(color.getBlue -128) +128)
+    color match {
+      case null => null
+      case color => Color.getColor("",ImageUtil.encodeRgb(newRed.toInt, newGreen.toInt, newBlue.toInt))
+    }
   }
 
   def mapColourEffect(f:Color => Color, tree:QTree[Coords]):QTree[Coords] = {

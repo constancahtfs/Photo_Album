@@ -96,6 +96,9 @@ object Main {
     val treeScaleDown = scale(0.5,treeScaleUp)
     println("Scale Down: " + treeScaleDown)
 
+    val bitMap = makeBitMap(treeScaleUp)
+    val bitMap2 = makeBitMap(treeScaleDown)
+
   }
 
   // rotate
@@ -233,10 +236,10 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     //task1Testing()
-    task2Testing()
+    //task2Testing()
     //task3Testing()
     //task4Testing()
-    //task5Testing()
+    task5Testing()
 
   }
 }

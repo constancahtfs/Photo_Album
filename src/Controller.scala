@@ -1,9 +1,10 @@
 import java.io.File
 
 import Manipulation.{makeBitMap, makeQTree}
-import QTree.{mirrorH, mirrorV, rotate90DegreesLeft, rotate90DegreesRight}
+import QTree.{contrast, mapColourEffect, mirrorH, mirrorV, noise, rotate90DegreesLeft, rotate90DegreesRight, scale, sepia}
 import javafx.fxml.FXML
-import javafx.scene.control.Button
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.{Alert, Button}
 import javafx.scene.image.{Image, ImageView}
 import javafx.stage.FileChooser
 import javax.imageio.ImageIO
@@ -32,6 +33,14 @@ class Controller {
   private var invertImgHButton: Button = _
   @FXML
   private var invertImgVButton: Button = _
+  @FXML
+  private var scaleImgButton: Button = _
+  @FXML
+  private var sepiaImgButton: Button = _
+  @FXML
+  private var noiseImgButton: Button = _
+  @FXML
+  private var contrastImgButton: Button = _
 
   private var images = List() : List[File]
   private var pointer = -1
@@ -39,8 +48,10 @@ class Controller {
   private var next = -1
 
   def importImages() = {
+    val folderPath = getClass.getClassLoader.getResource("").getPath + "Images/"
+    //var folder = new File("C:/Users/const/IdeaProjects/Photo_Album/src/Images/");
+    var folder = new File(folderPath);
 
-    var folder = new File("C:/Users/const/IdeaProjects/Photo_Album/src/Images/");
     var listOfFiles = folder.listFiles().toList
 
     images = listOfFiles
@@ -151,6 +162,72 @@ class Controller {
     updateSlideShow()
   }
 
+  def onScaleImgClicked() = {
+
+    val imageColors = ImageUtil.readColorImage(images(pointer).getAbsolutePath)
+    // Convert to list of lists
+    val converted = Utils.toListOfLists(imageColors.toList)
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    val scaledImg = scale(2,tree)
+    val bitMap2 = makeBitMap(scaledImg)
+    ImageUtil.writeImage(toListOfArrays(bitMap2).toArray, images(pointer).getAbsolutePath, "png")
+    updateSlideShow()
+  }
+
+  def onNoiseImgClicked() = {
+
+    val imageColors = ImageUtil.readColorImage(images(pointer).getAbsolutePath)
+    // Convert to list of lists
+    val converted = Utils.toListOfLists(imageColors.toList)
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    val noiseTree = mapColourEffect(noise,tree)
+    val bitMap2 = makeBitMap(noiseTree)
+    ImageUtil.writeImage(toListOfArrays(bitMap2).toArray, images(pointer).getAbsolutePath, "png")
+    updateSlideShow()
+
+
+  }
+
+  def onSepiaImgClicked() = {
+
+    val imageColors = ImageUtil.readColorImage(images(pointer).getAbsolutePath)
+    // Convert to list of lists
+    val converted = Utils.toListOfLists(imageColors.toList)
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    val noiseTree = mapColourEffect(sepia,tree)
+    val bitMap2 = makeBitMap(noiseTree)
+    ImageUtil.writeImage(toListOfArrays(bitMap2).toArray, images(pointer).getAbsolutePath, "png")
+    updateSlideShow()
+
+
+  }
+
+  def onConstrastImgClicked() = {
+
+    val imageColors = ImageUtil.readColorImage(images(pointer).getAbsolutePath)
+    // Convert to list of lists
+    val converted = Utils.toListOfLists(imageColors.toList)
+    // Create bitmap out of the list of lists
+    val bitMap = BitMap(converted)
+    // Create a tree out of the bitmap
+    val tree = makeQTree(bitMap);
+    val noiseTree = mapColourEffect(contrast,tree)
+    val bitMap2 = makeBitMap(noiseTree)
+    ImageUtil.writeImage(toListOfArrays(bitMap2).toArray, images(pointer).getAbsolutePath, "png")
+    updateSlideShow()
+
+
+  }
+
 
   def updateSlideShow(): Unit ={
     if(prev >= 0 && prev < images.size)
@@ -187,15 +264,19 @@ class Controller {
       var fileName = path.split('\\').last
 
 
-
-      var outputfile = new File("C:/Users/const/IdeaProjects/Photo_Album/src/Images/" + fileName)
+      val folderPath = getClass.getClassLoader.getResource("").getPath + "Images/"
+      //var outputfile = new File("C:/Users/const/IdeaProjects/Photo_Album/src/Images/" + fileName)
+      var outputfile = new File(folderPath + fileName)
       ImageIO.write(in, "png", outputfile)
 
 
       images = images ::: List(outputfile)
     }
-    else
-      println("Ficheiro já existe")
+    else {
+      var a = new Alert(AlertType.WARNING);
+      a.setContentText("Já existe um ficheiro com esse nome")
+      a.show();
+    }
 
 
     if(images.size == 1) {

@@ -3,44 +3,51 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane prefHeight="623.0" prefWidth="1084.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="654.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="627.0" prefWidth="1084.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab style="-fx-background-color: #f6dcbf; -fx-text-base-color: #282828; -fx-pref-width: 90; -fx-font-family: Verdana;" text="Slideshow">
+          <Tab style="-fx-background-color: #eeeeee; -fx-text-base-color: #282828; -fx-pref-width: 90; -fx-font-family: Verdana;" text="Slideshow">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #f6dcbf;">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="281.0" prefWidth="672.0" style="-fx-background-color: #eeeeee;">
                      <children>
-                        <Button id="importImgs" fx:id="importImgs" layoutX="602.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onImportClicked" prefWidth="44.0" style="-fx-background-color: transparent; -fx-text-base-color: #e1701a; -fx-border-color: #e1701a; -fx-border-width: 1; -fx-font-family: Verdana; -fx-border-radius: 0; -fx-padding: 5; -fx-pref-width: 30; -fx-pref-height: 30;" text="➕" />
-                        <HBox layoutX="38.0" layoutY="85.0" prefHeight="188.0" prefWidth="578.0">
-                           <children>
-                              <Button fx:id="prevButton" mnemonicParsing="false" onMouseClicked="#onPrevClicked" style="-fx-background-color: transparent; -fx-border-color: #e1701a; -fx-text-fill: #e1701a; -fx-pref-height: 100; -fx-font-size: 15;" text="◀" />
-                              <ImageView fx:id="img1" fitHeight="150.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView fx:id="img2" fitHeight="206.0" fitWidth="165.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView fx:id="img3" fitHeight="150.0" fitWidth="179.0" pickOnBounds="true" preserveRatio="true" />
-                              <Button fx:id="nextButton" mnemonicParsing="false" onMouseClicked="#onNextClicked" prefWidth="16.0" style="-fx-text-fill: #e1701a; -fx-background-color: transparent; -fx-font-size: 15; -fx-pref-height: 100; -fx-border-color: #e1701a;" text="▶" />
-                           </children>
-                        </HBox>
-                        <ButtonBar layoutX="101.0" layoutY="13.0" prefHeight="30.0" prefWidth="451.0">
-                           <buttons>
-                            <Button fx:id="rotateImgRightButton" minWidth="43.0" mnemonicParsing="false" onMouseClicked="#onRotateImgRightClicked" prefHeight="30.0" style="-fx-background-color: #f7a440; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #f7a440; -fx-font-family: Verdana; -fx-font-size: 14;" text="🔄" />
-                              <Button fx:id="invertImgHButton" mnemonicParsing="false" onMouseClicked="#onInvertImgHClicked" style="-fx-background-color: #f7a440; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #f7a440; -fx-font-family: Verdana; -fx-font-size: 14;" text="↔" />
-                              <Button fx:id="filterSepiaButton" mnemonicParsing="false" prefHeight="21.0" prefWidth="77.0" style="-fx-background-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #aaaaaa; -fx-font-family: Verdana; -fx-pref-height: 30;" text="Sépia" />
-                              <Button fx:id="filterContrastButton" mnemonicParsing="false" style="-fx-font-family: Verdana; -fx-background-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #aaaaaa; -fx-pref-height: 30;" text="Contraste" />
-                              <Button fx:id="filterNoiseButton" mnemonicParsing="false" style="-fx-font-family: Verdana; -fx-background-color: #aaaaaa; -fx-border-color: #aaaaaa; -fx-text-fill: white; -fx-border-radius: 0; -fx-pref-height: 30;" text="Ruído" />
-                           </buttons>
-                        </ButtonBar>
-                        <Button fx:id="deleteButton" layoutX="23.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onDeleteClicked" style="-fx-pref-height: 30; -fx-pref-width: 30; -fx-background-color: red; -fx-text-fill: white; -fx-border-radius: 0;" text="✖" />
-                        <Button fx:id="rotateImgLeftRightButton" layoutX="64.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#onRotateImgLeftClicked" text="Button" />
-                        <Button fx:id="invertImgVButton" layoutX="227.0" layoutY="45.0" mnemonicParsing="false" onMouseClicked="#onInvertImgVClicked" text="Button" />
+                        <Button id="importImgs" fx:id="importImgs" layoutX="748.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onImportClicked" prefWidth="44.0" style="-fx-background-color: transparent; -fx-text-base-color: #00adb5; -fx-border-color: #00adb5; -fx-border-width: 1; -fx-font-family: Verdana; -fx-border-radius: 0; -fx-padding: 5; -fx-pref-width: 100; -fx-pref-height: 35;" text="Importar ➕" />
+                        <Button fx:id="deleteButton" layoutX="23.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onDeleteClicked" prefWidth="94.0" style="-fx-pref-width: 100; -fx-pref-height: 30; -fx-background-color: red; -fx-text-fill: white; -fx-border-radius: 0; -fx-font-family: Verdana;" text="Apagar ✖" />
+                        <Button fx:id="rotateImgLeftRightButton" layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onRotateImgLeftClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-width: 35; -fx-pref-height: 35;" text="⭯" />
+                        <Button fx:id="invertImgVButton" layoutX="685.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onInvertImgVClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="↕" />
+                        <Label layoutX="909.0" layoutY="23.0" text="Descrição" textFill="#393e46" />
+                        <Button fx:id="nextButton" layoutX="818.0" layoutY="184.0" mnemonicParsing="false" onMouseClicked="#onNextClicked" prefWidth="16.0" style="-fx-text-fill: #00adb5; -fx-background-color: transparent; -fx-font-size: 15; -fx-pref-height: 100; -fx-border-color: #00adb5; -fx-border-radius: 30;" text="▶" />
+                        <Button fx:id="prevButton" layoutX="23.0" layoutY="184.0" mnemonicParsing="false" onMouseClicked="#onPrevClicked" style="-fx-background-color: transparent; -fx-border-color: #00adb5; -fx-text-fill: #00adb5; -fx-pref-height: 100; -fx-font-size: 15; -fx-border-radius: 30;" text="◀" />
+                        <Button fx:id="sepiaImgButton" layoutX="545.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onSepiaImgClicked" prefHeight="21.0" prefWidth="77.0" style="-fx-background-color: #393e46; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #393e46; -fx-font-family: Verdana; -fx-pref-height: 30; -fx-pref-width: 80;" text="Sépia" />
+                        <Button fx:id="contrastImgButton" layoutX="645.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onConstrastImgClicked" style="-fx-font-family: Verdana; -fx-background-color: #393e46; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #393e46; -fx-pref-height: 30; -fx-pref-width: 80;" text="Contraste" />
+                        <Button fx:id="noiseImgButton" layoutX="738.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onNoiseImgClicked" style="-fx-font-family: Verdana; -fx-background-color: #393e46; -fx-border-color: #393e46; -fx-text-fill: white; -fx-border-radius: 0; -fx-pref-height: 30; -fx-pref-width: 80;" text="Ruído" />
+                        <Separator layoutX="871.0" layoutY="1.0" orientation="VERTICAL" prefHeight="596.0" prefWidth="2.0" />
+                        <Button fx:id="invertImgHButton" layoutX="634.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onInvertImgHClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="↔" />
+                      <Button fx:id="rotateImgRightButton" layoutX="585.0" layoutY="14.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onRotateImgRightClicked" prefHeight="30.0" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-width: 35; -fx-pref-height: 35;" text="⭮" />
+                        <Separator layoutX="-3.0" layoutY="74.0" prefHeight="0.0" prefWidth="875.0" />
+                        <Separator layoutX="-3.0" layoutY="423.0" prefHeight="1.0" prefWidth="876.0" />
+                        <Label layoutX="73.0" layoutY="17.0" text="Photo Album" textFill="#393e46">
+                           <font>
+                              <Font name="Lucida Handwriting Italic" size="31.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="63.0" layoutY="61.0" prefWidth="200.0" />
+                        <Region layoutX="570.0" layoutY="134.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
+                        <Region layoutX="123.0" layoutY="134.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
+                        <Region layoutX="345.0" layoutY="114.0" prefHeight="242.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #aad8d3; -fx-border-width: 5;" />
+                        <ImageView fx:id="img3" fitHeight="199.0" fitWidth="199.0" layoutX="570.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img2" fitHeight="232.0" fitWidth="190.0" layoutX="350.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img1" fitHeight="200.0" fitWidth="200.0" layoutX="123.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" />
+                        <Button fx:id="scaleImgButton" layoutX="484.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onScaleImgClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="⤢" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab style="-fx-background-color: #f6dcbf; -fx-text-base-color: #282828; -fx-pref-width: 90; -fx-font-family: Verdana;" text="Grelha">
+          <Tab style="-fx-background-color: #eeeeee; -fx-text-base-color: #282828; -fx-pref-width: 90; -fx-font-family: Verdana;" text="Grelha">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #f6dcbf;">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #eeeeee;">
                      <children>
                         <GridPane layoutX="90.0" layoutY="41.0" prefHeight="279.0" prefWidth="467.0">
                           <columnConstraints>
