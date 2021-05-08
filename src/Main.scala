@@ -91,6 +91,8 @@ object Main {
 
     val originalTree = makeQTree(BitMap(Utils.toListOfLists(ImageUtil.readColorImage(path).toList)))
     println("Original: " + originalTree)
+    val aaa = makeBitMap(originalTree)
+    println(aaa)
     val treeScaleUp = scale(2,originalTree)
     println("Scale Up: " + treeScaleUp)
     val treeScaleDown = scale(0.5,treeScaleUp)
@@ -98,6 +100,7 @@ object Main {
 
     val bitMap = makeBitMap(treeScaleUp)
     val bitMap2 = makeBitMap(treeScaleDown)
+
 
   }
 
@@ -237,9 +240,9 @@ object Main {
   def main(args: Array[String]): Unit = {
     //task1Testing()
     //task2Testing()
-    //task3Testing()
+    task3Testing()
     //task4Testing()
-    task5Testing()
+    //task5Testing()
 
   }
 }

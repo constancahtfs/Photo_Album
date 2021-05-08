@@ -3,6 +3,8 @@ import java.awt.Color
 import Manipulation.{Coords, Section}
 import Utils.{getCoords, rotate90degCoords, rotateCoords90Left, rotateCoords90Right}
 
+import scala.util.Random
+
 trait QTree[+A]
 
 object QTree{
@@ -177,6 +179,35 @@ object QTree{
    *
    * *********************************************************************/
 
+
+  /*
+   *  Pure noise function
+   *  */
+  def noisePure(color: Color, randNumber: Random): Color = {
+    //val rnd = new scala.util.Random
+    //val randNumber = ((0 + rnd.nextInt( (100 - 0) + 1 )).toDouble )/100 // Must be between 0 and 255
+
+    new Color((color.getRed() * randNumber.nextDouble()).toInt,
+      (color.getGreen() * randNumber.nextDouble()).toInt,
+      (color.getBlue() * randNumber.nextDouble()).toInt)
+  }
+
+  def mapNoisePure(tree:QTree[Coords], tutu: Int):QTree[Coords] = {
+    tree match {
+      case QEmpty => QEmpty
+      case QLeaf((c, color : Color)) => QLeaf((c,noisePure(color, new Random(tutu))))
+      case QNode(c, fi, se, th, fo) => QNode(c,
+        mapNoisePure(fi, tutu),
+        mapNoisePure(se, tutu),
+        mapNoisePure(th, tutu),
+        mapNoisePure(fo, tutu))
+        /*mapNoisePure(fi, new Random(tutu).nextInt()),
+        mapNoisePure(se, new Random(tutu).nextInt()),
+        mapNoisePure(th, new Random(tutu).nextInt()),
+        mapNoisePure(fo, new Random(tutu).nextInt()))  */
+    }
+  }
+
   /*
    *  Impure noise function
    *  */
@@ -187,6 +218,18 @@ object QTree{
     new Color((color.getRed()   * randNumber).toInt,
               (color.getGreen() * randNumber).toInt,
               (color.getBlue()  * randNumber).toInt)
+  }
+
+  def mapColourEffect(f:Color => Color, tree:QTree[Coords]):QTree[Coords] = {
+    tree match {
+      case QEmpty => QEmpty
+      case QLeaf((c, color : Color)) => QLeaf((c,f(color)))
+      case QNode(c, fi, se, th, fo) => QNode(c,
+        mapColourEffect(f,fi),
+        mapColourEffect(f,se),
+        mapColourEffect(f,th),
+        mapColourEffect(f,fo))
+    }
   }
 
 
@@ -225,16 +268,6 @@ object QTree{
     }
   }
 
-  def mapColourEffect(f:Color => Color, tree:QTree[Coords]):QTree[Coords] = {
-    tree match {
-      case QEmpty => QEmpty
-      case QLeaf((c, color : Color)) => QLeaf((c,f(color)))
-      case QNode(c, fi, se, th, fo) => QNode(c,
-        mapColourEffect(f,fi),
-        mapColourEffect(f,se),
-        mapColourEffect(f,th),
-        mapColourEffect(f,fo))
-    }
-  }
+
 
 }

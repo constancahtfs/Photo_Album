@@ -3,17 +3,7 @@ import java.awt.Color
 import Manipulation.{Coords, Section}
 
 import scala.annotation.tailrec
-import scala.util.Random
 
-case class MyRandom(seed: Long) extends Random {
-  def NextInt: (Int, Random) = {
-    val newSeed = (seed * 0x5DEECE66DL + 0xBL) &
-      0xFFFFFFFFFFFFL
-    val nextRandom = MyRandom(newSeed)
-    val n = (newSeed >>> 16).toInt
-    (n, nextRandom)
-  }
-}
 
 
 object Utils {
@@ -96,6 +86,7 @@ object Utils {
         section match {
           case (coords, color) => coords
         }
+      case QLeaf(((a: Int,b: Int),(c: Int,d: Int),color)) => ((a,b),(c,d))
     }
   }
 

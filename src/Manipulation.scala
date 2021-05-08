@@ -62,6 +62,7 @@ object Manipulation {
       case "QEmpty" => list
 
       case "QLeaf" =>
+
         val c = getRootCoords(t)
         updateMatrix(c,
           ImageUtil.encodeRgb(
@@ -79,7 +80,6 @@ object Manipulation {
         val b = subMakeBitMap(getQuad2(t),a)
         val c = subMakeBitMap(getQuad3(t),b)
         subMakeBitMap(getQuad4(t),c)
-
 
     }
   }

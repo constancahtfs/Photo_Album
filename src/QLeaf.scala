@@ -15,6 +15,7 @@ object QLeaf{
         section match {
           case (coords, color) => color
         }
+      case QLeaf(((a: Int,b: Int),(c: Int,d: Int),color: Color)) => color
     }
   }
 }
