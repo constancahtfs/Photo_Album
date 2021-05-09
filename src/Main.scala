@@ -44,13 +44,13 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
-    val folder = new File("src/Images")
+    val folder = new File("Images/")
     val listOfFiles = folder.listFiles().toList
     println("Images available: ")
     presentation(listOfFiles)
     println()
     print("Write the name of the image (including extension) you want to operate: ")
-    val imageFile = new File("src/Images/" + getUserInput())
+    val imageFile = new File("Images/" + getUserInput())
     val path = imageFile.getAbsolutePath
     mainLoop()
 

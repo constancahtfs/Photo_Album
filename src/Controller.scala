@@ -33,8 +33,6 @@ class Controller {
   private var heightSizeInput: TextField = _
   @FXML
   private var widthSizeInput: TextField = _
-
-  //---
   @FXML
   private var gridImg1: ImageView = _
   @FXML
@@ -56,7 +54,7 @@ class Controller {
 
 
   def onGridTabClicked(): Unit = {
-    var folder = new File("src/Images");
+    var folder = new File("Images/");
 
     var listOfFiles = folder.listFiles().toList
 

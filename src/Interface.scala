@@ -69,7 +69,8 @@ object FxApp {
   var pointer = 1
   var prev = 0
   var next = 2
-  val imagesPath = getClass.getClassLoader.getResource("").getPath + "Images/"
+  //val imagesPath = getClass.getClassLoader.getResource("").getPath + "Images/"
+  val imagesPath = "Images/"
 
   var grid1 = 0
   var grid2 = 1
@@ -91,7 +92,6 @@ object FxApp {
       var image = new Image("file:///" + file.getAbsolutePath)
       images = images ::: List(new ImageInfo(file,"", image.getWidth(), image.getHeight()))
     }
-    println(FxApp.images)
 
   }
 
