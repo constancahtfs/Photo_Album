@@ -45,61 +45,6 @@ class Controller {
   private var gridImg5: ImageView = _
   @FXML
   private var gridImg6: ImageView = _
-  @FXML
-  private var update: Button = _
-  @FXML
-  private var prevGridButton: Button = _
-  @FXML
-  private var nextGridButton: Button = _
-
-
-  def onGridTabClicked(): Unit = {
-    var folder = new File("Images/");
-
-    var listOfFiles = folder.listFiles().toList
-
-    for (file <- listOfFiles) {
-      var image = new Image("file:///" + file.getAbsolutePath)
-      images = images ::: List(new ImageInfo(file,"", image.getWidth(), image.getHeight()))
-    }
-
-   updateGrid()
-
-  }
-
-  def onPrevGridClicked(): Unit ={
-    if(grid6 - 6 < images.size && grid6 - 6 > -1){
-      grid1 = grid1 - 6
-      grid2 = grid2 - 6
-      grid3 = grid3 - 6
-      grid4 = grid4 - 6
-      grid5 = grid5 - 6
-      grid6 = grid6 - 6
-      updateGrid()
-    }
-  }
-
-  def onNextGridClicked(): Unit ={
-    if(grid1 + 6 < images.size && grid1 + 6 > -1) {
-      grid1 = grid1 + 6
-      grid2 = grid2 + 6
-      grid3 = grid3 + 6
-      grid4 = grid4 + 6
-      grid5 = grid5 + 6
-      grid6 = grid6 + 6
-      updateGrid()
-    }
-  }
-
-  def updateGrid(): Unit ={
-    setImg(gridImg1,grid1)
-    setImg(gridImg2,grid2)
-    setImg(gridImg3,grid3)
-    setImg(gridImg4,grid4)
-    setImg(gridImg5,grid5)
-    setImg(gridImg6,grid6)
-  }
-
 
 
   /**********************************************************************
@@ -108,10 +53,19 @@ class Controller {
    *
    * *********************************************************************/
 
+  /*
+  *   Checks if both paths have the same file name
+  * */
   def same(path1: String, path2: String): Boolean = path1.split('\\').last.equals(path2.split('\\').last)
 
+  /*
+  *   Checks if filename already exists in list of images
+  * */
   def alreadyExists(images: List[ImageInfo], path: String) : Boolean = (images foldRight false) ( (i1,i2) => same(i1.getFile().getAbsolutePath,path) || i2)
 
+  /*
+  *    Remove image from list and directory
+  * */
   def remove(file: ImageInfo, list: List[ImageInfo]) = list diff List(file)
 
   def rightSwitch(xs: List[ImageInfo], p: File): List[ImageInfo] = {
@@ -138,47 +92,61 @@ class Controller {
     }
   }
 
+  /*
+  *   Set the given imageview with the image of the given index
+  * */
   def setImg(img: ImageView, index: Int): Unit ={
 
     if(index < FxApp.images.size && index > -1) {
       img.setImage(new Image("file:///" + FxApp.images(index).getFile().getAbsolutePath))
-    } else {
+    } else { // if there is no image at the given index
       img.setImage(null)
     }
   }
 
+  /*
+  *   Set image input description
+  * */
   def setDescription(text: String): Unit ={
     imgDescription.setText("")
     imgDescription.setText(text)
   }
 
+  /*
+  *   Update slide show
+  * */
   def updateSlideShow(): Unit ={
 
     setSlideShow(img1, img2, img3)
 
+    // set size label on top of image, if image exists
     imgSizeLabel.setText("")
     if(pointer < FxApp.images.size && pointer > -1) {
       setDescription(FxApp.images(pointer).getDescription())
       imgSizeLabel.setText(FxApp.images(pointer).width + "x" + FxApp.images(pointer).height)
     }
-
   }
 
+  /*
+  *   Set slideshow 3 images
+  * */
   def setSlideShow(im1: ImageView, im2: ImageView, im3: ImageView): Unit ={
+
+    // if there is only one image, make it the pointer image
     if(FxApp.images.size == 1){
       prev = -1
       pointer = 0
       next = 1
-
     }
+
     setImg(im1, prev)
     setImg(im2, pointer)
     setImg(im3, next)
-
   }
 
-
-
+  /*
+  *   Convert list of lists to list of arrays
+  * */
   def toListOfArrays(l: List[List[Int]]): List[Array[Int]] = {
     l match{
       case List() => List()
@@ -186,7 +154,9 @@ class Controller {
     }
   }
 
-
+  /*
+  *   Convert current image to tree (pointer)
+  * */
   def pointerToTree(): QTree[Coords] ={
     val imageColors = ImageUtil.readColorImage(FxApp.images(FxApp.pointer).getFile().getAbsolutePath)
     // Convert to list of lists
@@ -198,13 +168,18 @@ class Controller {
     tree
   }
 
+  /*
+  *   Display tree as current image (pointer)
+  * */
   def treeToPointer(tree: QTree[Coords]): Unit ={
     val bitMap = makeBitMap(tree)
     ImageUtil.writeImage(toListOfArrays(bitMap).toArray, FxApp.images(FxApp.pointer).getFile().getAbsolutePath, "png")
     updateSlideShow()
   }
 
-
+  /*
+  *   Check if string is a numeric value
+  * */
   def isInt(text:String):Boolean = Try {
     text.toInt
   } match {
@@ -212,9 +187,24 @@ class Controller {
     case Failure(ex) => false
   }
 
+  /*
+  *   Check if image is smaller than the given sizes
+  * */
   def isSmallerThan(image: ImageInfo, width: Double, height: Double): Boolean ={
     if(image.width < width && image.height < height) true
     else false
+  }
+
+  /*
+  *   Update grid view with next/prev 6 images
+  * */
+  def updateGrid(): Unit ={
+    setImg(gridImg1,grid1)
+    setImg(gridImg2,grid2)
+    setImg(gridImg3,grid3)
+    setImg(gridImg4,grid4)
+    setImg(gridImg5,grid5)
+    setImg(gridImg6,grid6)
   }
 
 
@@ -223,6 +213,46 @@ class Controller {
    *                 Buttons Click Events
    *
    * *********************************************************************/
+
+  /************************************************************
+   *                 GRID
+   * **********************************************************/
+
+  def onGridTabClicked(): Unit = {
+    updateGrid()
+  }
+
+  /************************************************************
+   *                 GRID ARROWS
+   * **********************************************************/
+
+  def onPrevGridClicked(): Unit ={
+    if(grid6 - 6 < images.size && grid6 - 6 > -1){
+      grid1 = grid1 - 6
+      grid2 = grid2 - 6
+      grid3 = grid3 - 6
+      grid4 = grid4 - 6
+      grid5 = grid5 - 6
+      grid6 = grid6 - 6
+      updateGrid()
+    }
+  }
+
+  def onNextGridClicked(): Unit ={
+    if(grid1 + 6 < images.size && grid1 + 6 > -1) {
+      grid1 = grid1 + 6
+      grid2 = grid2 + 6
+      grid3 = grid3 + 6
+      grid4 = grid4 + 6
+      grid5 = grid5 + 6
+      grid6 = grid6 + 6
+      updateGrid()
+    }
+  }
+
+  /************************************************************
+   *                 SWITCH IMAGES POSITION
+   * **********************************************************/
 
   def onRightSwitchClicked() = {
     if ((pointer >= 0 && pointer < FxApp.images.size) && (next > 0 && next <= FxApp.images.size)) {
@@ -240,6 +270,10 @@ class Controller {
     }
   }
 
+  /************************************************************
+   *                 DELETE IMAGE
+   * **********************************************************/
+
   def onDeleteClicked() = {
 
     if(FxApp.images.size != 0) {
@@ -256,6 +290,10 @@ class Controller {
       updateSlideShow()
     }
   }
+
+  /************************************************************
+   *                 SLIDESHOW ARROWS
+   * **********************************************************/
 
   def onPrevClicked() = {
     if(FxApp.prev < FxApp.images.size && FxApp.prev > -1){
@@ -275,11 +313,18 @@ class Controller {
     }
   }
 
+  /************************************************************
+   *                 SET IMAGE DESCRIPTION
+   * **********************************************************/
+
   def onUpdateDescriptionClicked() = {
     val text = imgDescription.getText()
     FxApp.images(pointer).setDescription(text)
   }
 
+  /************************************************************
+   *                 IMAGE EFFECTS
+   * **********************************************************/
 
   def onRotateImgRightClicked() = {
     val rotatedImg = rotate90DegreesRight(pointerToTree())
@@ -316,22 +361,6 @@ class Controller {
     updateSlideShow()
   }
 
-  def onScaleDownImgClicked() = {
-
-    val treeScaleDown = scale(0.5,pointerToTree())
-    val bitMap = makeBitMap(treeScaleDown)
-    ImageUtil.writeImage(toListOfArrays(bitMap).toArray, FxApp.images(FxApp.pointer).getFile().getAbsolutePath, "png")
-
-    var image = new Image("file:///" + FxApp.images(FxApp.pointer).getFile().getAbsolutePath)
-
-    FxApp.images(FxApp.pointer).height = image.getHeight()
-    FxApp.images(FxApp.pointer).width = image.getWidth()
-
-    imgSizeLabel.setText(FxApp.images(pointer).width + "x" + FxApp.images(pointer).height)
-
-    updateSlideShow()
-  }
-
   def onNoiseImgClicked() = {
     val noiseTree = mapColourEffect(noise,pointerToTree())
     treeToPointer(noiseTree)
@@ -351,6 +380,10 @@ class Controller {
     val contrastTree = mapColourEffect(contrast,pointerToTree())
     treeToPointer(contrastTree)
   }
+
+  /************************************************************
+   *                 FILTER IMAGES
+   * **********************************************************/
 
   def onSizeSmallerThanClicked() = {
 
@@ -390,6 +423,10 @@ class Controller {
     }
 
   }
+
+  /************************************************************
+   *                 IMPORT IMAGES
+   * **********************************************************/
 
   def onImportClicked(): Unit = {
 
