@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
-//import javax.swing.text.html.ImageView
 
 class ImageInfo(var file:File, var description:String, var width: Double, var height: Double){
 
@@ -49,29 +48,28 @@ class Interface extends Application {
     primaryStage.setScene(scene)
     primaryStage.show()
 
-
+    // Fill images list with the saved images
     importImages()
 
-
+    // Set images in slideshow
     var im1 : ImageView = scene.lookup("#img1").asInstanceOf[ImageView]
     var im2 : ImageView = scene.lookup("#img2").asInstanceOf[ImageView]
     var im3 : ImageView = scene.lookup("#img3").asInstanceOf[ImageView]
 
     new Controller().setSlideShow(im1,im2,im3)
-
-
-
   }
 }
 object FxApp {
 
-  var images = List() : List[ImageInfo]
+  var images = List() : List[ImageInfo] // List of images
+  val imagesPath = "Images/" // Images path
+
+  // Slideshow variables
   var pointer = 1
   var prev = 0
   var next = 2
-  //val imagesPath = getClass.getClassLoader.getResource("").getPath + "Images/"
-  val imagesPath = "Images/"
 
+  // Grid variables
   var grid1 = 0
   var grid2 = 1
   var grid3 = 2
@@ -79,6 +77,9 @@ object FxApp {
   var grid5 = 4
   var grid6 = 5
 
+  /*
+  *   Fill images list according with the saved images on project
+  * */
   def importImages() = {
 
     images = List()
@@ -86,16 +87,12 @@ object FxApp {
     var folder = new File(imagesPath)
     var listOfFiles = folder.listFiles().toList
 
-
-
     for (file <- listOfFiles) {
       var image = new Image("file:///" + file.getAbsolutePath)
       images = images ::: List(new ImageInfo(file,"", image.getWidth(), image.getHeight()))
     }
 
   }
-
-
 
   def main(args: Array[String]): Unit = {
 

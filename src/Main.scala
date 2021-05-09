@@ -10,10 +10,10 @@ object Main {
 
   /*************************************************************************************************************
    *
-   *    -- This part is meant to run each task and test it with all the avaiable images
-   *    inside this project with the textual menu
+   *    -- This part is meant to run each task and test it with all the available images
+   *    inside this project with the help of the textual menu
    *
-   *    -- For now we have made and tested completely as shown bellow the following tasks:
+   *    -- We have made and tested completely the following tasks:
    *          - Task 1 - MakeQTree             (declared in QTree)
    *          - Task 1 - MakeBitMap            (declared in QTree)
    *          - Task 2 - Scale Up              (declares in QTree)
@@ -42,6 +42,18 @@ object Main {
     }
   }
 
+  //Verifica se duas strings são iguais
+  def same(imageName1: String, imageName2: String): Boolean = imageName1.equals(imageName2)
+
+  //Verifica se existe um ficheiro com um dado nome numa lista
+  def ifExists(images: List[File], string: String): Boolean = {
+    images match {
+      case Nil => false
+      case List(x) => same(x.getName,string)
+      case x :: xs => if(same(x.getName,string)) true else ifExists(xs,string)
+    }
+  }
+
   def main(args: Array[String]): Unit = {
 
     val folder = new File("Images/")
@@ -50,33 +62,45 @@ object Main {
     presentation(listOfFiles)
     println()
     print("Write the name of the image (including extension) you want to operate: ")
-    val imageFile = new File("Images/" + getUserInput())
+
+    val input = getUserInput()
+    val imageFile = new File("Images/" + input)
     val path = imageFile.getAbsolutePath
-    mainLoop()
 
-    @tailrec
-    def mainLoop() {
+    if(ifExists(listOfFiles,input)) {
 
-      showPrompt()
-      val userInput = getUserInput()
+      mainLoop()
 
-      // handle the result
-      userInput match {
-        case "1" => {
-          val bitmap = BitMap(toListOfLists(ImageUtil.readColorImage(path).toList))
-          val tree = makeQTree(BitMap(toListOfLists(ImageUtil.readColorImage(path).toList)))
-          println("Bitmap original: " + bitmap)
-          println("Árvore original: " + tree)
-          showSubmenu()
-          subLoop(tree)
-          mainLoop()
-        }
-        case _ => {
-          print("Bye!")
-          // return out of the recursion here
+    }
+    else {
+      println("The name of the file is incorrect! ")
+      main(args: Array[String])
+    }
+
+
+      @tailrec
+      def mainLoop() {
+
+        showPrompt()
+        val userInput = getUserInput()
+
+        // handle the result
+        userInput match {
+          case "1" => {
+            val bitmap = BitMap(toListOfLists(ImageUtil.readColorImage(path).toList))
+            val tree = makeQTree(BitMap(toListOfLists(ImageUtil.readColorImage(path).toList)))
+            println("Bitmap original: " + bitmap)
+            println("Árvore original: " + tree)
+            showSubmenu()
+            subLoop(tree)
+            mainLoop()
+          }
+          case _ => {
+            print("Bye!")
+            // return out of the recursion here
+          }
         }
       }
-    }
 
   }
 }

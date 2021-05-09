@@ -157,7 +157,7 @@ object IO_Utils {
         subLoopEffects(t)
       }
       case "4" => {
-        println(mapColourEffect(sepia,t))
+        println(arvoreTransformada + mapColourEffect(sepia,t))
         println(arvoreOriginal + t)
         println(bitMapTransformado + makeBitMap(mapColourEffect(sepia, t)))
         println(bitMapOriginal + makeBitMap(t))
