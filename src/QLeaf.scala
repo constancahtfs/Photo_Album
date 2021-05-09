@@ -11,11 +11,13 @@ object QLeaf{
   * */
   def getLeafColor(leaf: QTree[Coords]): Color = {
     leaf match {
+      case QLeaf((((a: Int,b: Int),(c: Int,d: Int)),(color: Color,seed))) => color
       case QLeaf(section: Section) =>
         section match {
           case (coords, color) => color
         }
       case QLeaf(((a: Int,b: Int),(c: Int,d: Int),color: Color)) => color
+
     }
   }
 }

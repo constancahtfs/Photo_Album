@@ -1,7 +1,7 @@
 import java.awt.Color
 
 import Manipulation.{Coords, Section}
-import Utils.{getCoords, rotate90degCoords, rotateCoords90Left, rotateCoords90Right}
+import Utils.{rotateCoords90Left, rotateCoords90Right}
 
 import scala.util.Random
 
@@ -12,52 +12,75 @@ object QTree{
 
   /**********************************************************************
    *
-   *                 TASK 4 - Rotation Effect (tested and working)
+   *                 Utilitary Definitions
    *
    * *********************************************************************/
 
   /*
-  *  Rotate the given tree 90 degrees to the right
+  * Get the type of the given tree
+  *
   * */
-  def rotate90DegreesRight(t:QTree[Coords]): QTree[Coords] = {
-    val c = rotate90degCoords(t)
-    subRotate90DegreesRight(t,c,c._2._2)
-  }
-
-  def subRotate90DegreesRight(t:QTree[Coords], coords: Coords, imgWidth: Int): QTree[Coords] = {
-    t match {
-      case QEmpty => QEmpty
-      case QLeaf((c, color)) => QLeaf((coords,color))
-      case QNode(c, fi, se, th, fo) =>
-        QNode(coords,
-          subRotate90DegreesRight(th,rotateCoords90Right(getCoords(th),imgWidth),imgWidth),
-          subRotate90DegreesRight(fi,rotateCoords90Right(getCoords(fi),imgWidth),imgWidth),
-          subRotate90DegreesRight(fo,rotateCoords90Right(getCoords(fo),imgWidth),imgWidth),
-          subRotate90DegreesRight(se,rotateCoords90Right(getCoords(se),imgWidth),imgWidth))
+  def getType(tree: QTree[Coords])={
+    tree match {
+      case QEmpty => "QEmpty"
+      case QLeaf(section)  => "QLeaf"
+      case QNode(c,fi,se,th,fo) => "QNode"
+      case _ => "Unknown"
     }
   }
 
   /*
-  *  Rotate the given tree 90 degrees to the left
+  *  Inverts width and height of the given tree
+  *
   * */
-  def rotate90DegreesLeft(t:QTree[Coords]): QTree[Coords] = {
-    val c = rotate90degCoords(t)
-    subRotate90DegreesLeft(t,c,c._2._1)
+  def rotate90degCoords(tree: QTree[Coords]): Coords = {
+    val coords = getRootCoords(tree)
+    ((coords._1._1,coords._1._2),(coords._2._2,coords._2._1))
   }
 
-  def subRotate90DegreesLeft(t:QTree[Coords], coords: Coords, imgHeight: Int): QTree[Coords] = {
-    t match {
-      case QEmpty => QEmpty
-      case QLeaf((c, color)) => QLeaf((coords,color))
-      case QNode(c, fi, se, th, fo) =>
-        QNode(coords,
-          subRotate90DegreesLeft(se,rotateCoords90Left(getCoords(se),imgHeight),imgHeight),
-          subRotate90DegreesLeft(fo,rotateCoords90Left(getCoords(fo),imgHeight),imgHeight),
-          subRotate90DegreesLeft(fi,rotateCoords90Left(getCoords(fi),imgHeight),imgHeight),
-          subRotate90DegreesLeft(th,rotateCoords90Left(getCoords(th),imgHeight),imgHeight))
-
+  /*
+  *  Gets the root coordinates of the given tree
+  *
+  * */
+  def getCoords(tree: QTree[Coords]): Coords = {
+    tree match {
+      case QNode(c,fi,se,th,fo) => c
+      case QLeaf((c: Coords,color: Color)) => c
+      case _ => ((-1,-1),(-1,-1)) // QEmpty, does not matter
     }
   }
+
+
+  def getRootCoords(tree: QTree[Coords]): Coords =  {
+    tree match {
+      case QEmpty => ((-1,-1),(-1,-1))
+      case QNode(c,fi,se,th,fo) => c
+      case QLeaf(section: Section) =>
+        section match {
+          case (coords, color) => coords
+        }
+      case QLeaf(((a: Int,b: Int),(c: Int,d: Int),color)) => ((a,b),(c,d))
+    }
+  }
+
+  /*
+  *  The following 4 definitions will retrieve the wanted quadrant node
+  *
+  * */
+
+  def getQuad(tree: QTree[Coords], quad: Int): QTree[Coords] = {
+    tree match {
+      case QNode(c,fi,se,th,fo) =>
+
+        if(quad == 1) fi
+        else if(quad == 2) se
+        else if(quad == 3) th
+        else fo
+
+      case _ => tree
+    }
+  }
+
 
   /**********************************************************************
    *
@@ -108,6 +131,7 @@ object QTree{
         } else { */QLeaf((( a * factor).toInt, (b * factor).toInt),
         ((c * factor).toInt, (d * factor).toInt),color)
       //}
+      case QLeaf((((a: Int,b: Int),(c: Int,d: Int)),color)) =>QLeaf((( a * factor).toInt, (b * factor).toInt), ((c * factor).toInt, (d * factor).toInt),color)
       case QNode(value, first, second, third, fourth) =>
         QNode(((value._1._1, value._1._2),
           ((value._2._1 * factor).toInt, (value._2._2 * factor).toInt)), scaleDown(factor,first),
@@ -119,7 +143,7 @@ object QTree{
 
   /**********************************************************************
    *
-   *                 TASK 2 - Mirror Effect
+   *                 TASK 3 - Mirror Effect
    *
    * *********************************************************************/
 
@@ -127,7 +151,7 @@ object QTree{
   *  Mirror the given tree vertically
   * */
   def mirrorV(tree:QTree[Coords]) : QTree[Coords] = {
-      subMirrorV(tree, Utils.getRootCoords(tree)._2._1)
+    subMirrorV(tree, getRootCoords(tree)._2._1)
   }
 
 
@@ -153,7 +177,7 @@ object QTree{
   *  Mirror the given tree horizontally
   * */
   def mirrorH(tree:QTree[Coords]) : QTree[Coords] = {
-    subMirrorH(tree, Utils.getRootCoords(tree)._2._2)
+    subMirrorH(tree, getRootCoords(tree)._2._2)
   }
 
   def subMirrorH(tree: QTree[Coords], lastCol: Int): QTree[Coords] = {
@@ -172,6 +196,55 @@ object QTree{
     }
   }
 
+  /**********************************************************************
+   *
+   *                 TASK 4 - Rotation Effect (tested and working)
+   *
+   * *********************************************************************/
+
+  /*
+  *  Rotate the given tree 90 degrees to the right
+  * */
+  def rotate90DegreesRight(t:QTree[Coords]): QTree[Coords] = {
+    val c = rotate90degCoords(t)
+    subRotate90DegreesRight(t,c,c._2._2)
+  }
+
+  def subRotate90DegreesRight(t:QTree[Coords], coords: Coords, imgWidth: Int): QTree[Coords] = {
+    t match {
+      case QEmpty => QEmpty
+      case QLeaf((c, color)) => QLeaf((coords,color))
+      case QNode(c, fi, se, th, fo) =>
+        QNode(coords,
+          subRotate90DegreesRight(th,rotateCoords90Right(getCoords(th),imgWidth),imgWidth),
+          subRotate90DegreesRight(fi,rotateCoords90Right(getCoords(fi),imgWidth),imgWidth),
+          subRotate90DegreesRight(fo,rotateCoords90Right(getCoords(fo),imgWidth),imgWidth),
+          subRotate90DegreesRight(se,rotateCoords90Right(getCoords(se),imgWidth),imgWidth))
+    }
+  }
+
+  /*
+  *  Rotate the given tree 90 degrees to the left
+  * */
+  def rotate90DegreesLeft(t:QTree[Coords]): QTree[Coords] = {
+    val c = rotate90degCoords(t)
+    subRotate90DegreesLeft(t,c,c._2._1)
+  }
+
+  def subRotate90DegreesLeft(t:QTree[Coords], coords: Coords, imgHeight: Int): QTree[Coords] = {
+    t match {
+      case QEmpty => QEmpty
+      case QLeaf((c, color)) => QLeaf((coords,color))
+      case QNode(c, fi, se, th, fo) =>
+        QNode(coords,
+          subRotate90DegreesLeft(se,rotateCoords90Left(getCoords(se),imgHeight),imgHeight),
+          subRotate90DegreesLeft(fo,rotateCoords90Left(getCoords(fo),imgHeight),imgHeight),
+          subRotate90DegreesLeft(fi,rotateCoords90Left(getCoords(fi),imgHeight),imgHeight),
+          subRotate90DegreesLeft(th,rotateCoords90Left(getCoords(th),imgHeight),imgHeight))
+
+    }
+  }
+
 
   /**********************************************************************
    *
@@ -181,36 +254,39 @@ object QTree{
 
 
   /*
-   *  Pure noise function
-   *  */
-  def noisePure(color: Color, randNumber: Random): Color = {
-    //val rnd = new scala.util.Random
-    //val randNumber = ((0 + rnd.nextInt( (100 - 0) + 1 )).toDouble )/100 // Must be between 0 and 255
+  *  Pure noise function
+  *  */
+  def noisePure(color: Color, seed: Long): (Color, Long) = {
 
-    new Color((color.getRed() * randNumber.nextDouble()).toInt,
-      (color.getGreen() * randNumber.nextDouble()).toInt,
-      (color.getBlue() * randNumber.nextDouble()).toInt)
+    val rand = new Random(seed)
+    val randNumber = rand.nextDouble()
+
+    (new Color((color.getRed() * randNumber).toInt,
+      (color.getGreen() * randNumber).toInt,
+      (color.getBlue() * randNumber).toInt),seed)
   }
 
-  def mapNoisePure(tree:QTree[Coords], tutu: Int):QTree[Coords] = {
+  /*
+  *  Pure noise map
+  *  */
+  def mapNoisePure(tree:QTree[Coords], seed: Long): (QTree[Coords], Long) = {
+
+    val newSeed = (seed * 0x5DEECE66DL + 0xBL) & 0xFFFFFFFFFFFFL
+
     tree match {
-      case QEmpty => QEmpty
-      case QLeaf((c, color : Color)) => QLeaf((c,noisePure(color, new Random(tutu))))
-      case QNode(c, fi, se, th, fo) => QNode(c,
-        mapNoisePure(fi, tutu),
-        mapNoisePure(se, tutu),
-        mapNoisePure(th, tutu),
-        mapNoisePure(fo, tutu))
-        /*mapNoisePure(fi, new Random(tutu).nextInt()),
-        mapNoisePure(se, new Random(tutu).nextInt()),
-        mapNoisePure(th, new Random(tutu).nextInt()),
-        mapNoisePure(fo, new Random(tutu).nextInt()))  */
+      case QEmpty => (QEmpty,seed)
+      case QLeaf((c, color : Color)) => (QLeaf((c,noisePure(color, seed))),seed)
+      case QNode(c, fi, se, th, fo) => (QNode(c,
+        mapNoisePure(fi, newSeed)._1 ,
+        mapNoisePure(se, newSeed)._1,
+        mapNoisePure(th, newSeed)._1,
+        mapNoisePure(fo, newSeed)._1),newSeed)
     }
   }
 
   /*
-   *  Impure noise function
-   *  */
+  *  Impure noise function
+  *  */
   def noise(color: Color): Color = {
     val rnd = new scala.util.Random
     val randNumber = ((0 + rnd.nextInt( (100 - 0) + 1 )).toDouble )/100 // Must be between 0 and 255
@@ -219,20 +295,6 @@ object QTree{
               (color.getGreen() * randNumber).toInt,
               (color.getBlue()  * randNumber).toInt)
   }
-
-  def mapColourEffect(f:Color => Color, tree:QTree[Coords]):QTree[Coords] = {
-    tree match {
-      case QEmpty => QEmpty
-      case QLeaf((c, color : Color)) => QLeaf((c,f(color)))
-      case QNode(c, fi, se, th, fo) => QNode(c,
-        mapColourEffect(f,fi),
-        mapColourEffect(f,se),
-        mapColourEffect(f,th),
-        mapColourEffect(f,fo))
-    }
-  }
-
-
 
   //Efeito sepia
   def sepia(color: Color): Color = {
@@ -249,7 +311,6 @@ object QTree{
       case color => Color.getColor("",ImageUtil.encodeRgb(newRed,newGreen, newBlue))
     }
   }
-
 
   def contrast(color: Color) : Color= {
     // Fator de contraste = 1.2 (20%)
@@ -268,6 +329,17 @@ object QTree{
     }
   }
 
+  def mapColourEffect(f:Color => Color, tree:QTree[Coords]):QTree[Coords] = {
+    tree match {
+      case QEmpty => QEmpty
+      case QLeaf((c, color : Color)) => QLeaf((c,f(color)))
+      case QNode(c, fi, se, th, fo) => QNode(c,
+        mapColourEffect(f,fi),
+        mapColourEffect(f,se),
+        mapColourEffect(f,th),
+        mapColourEffect(f,fo))
+    }
+  }
 
 
 }

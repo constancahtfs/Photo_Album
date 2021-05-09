@@ -1,7 +1,8 @@
 import java.awt.Color
 
+import BitMap.{isColorStain, rawQuad1, rawQuad2, rawQuad3, rawQuad4, sliceList, trueQ1, trueQ2, trueQ3, trueQ4, updateMatrix, verticesCoordinates}
 import QLeaf.getLeafColor
-import Utils.{getQuad1, getQuad2, getQuad3, getQuad4, getRootCoords, getType, isColorStain, rawQuad1, rawQuad2, rawQuad3, rawQuad4, sliceList, trueQ1, trueQ2, trueQ3, trueQ4, updateMatrix}
+import QTree.{getQuad, getRootCoords, getType}
 
 object Manipulation {
 
@@ -16,8 +17,9 @@ object Manipulation {
    * *********************************************************************/
 
   def makeQTree(bitMap: BitMap[Int]): QTree[Coords] = {
-    subMakeQTree(bitMap.matrix, Utils.verticesCoordinates(bitMap.matrix))
+    subMakeQTree(bitMap.matrix, verticesCoordinates(bitMap.matrix))
   }
+
 
   def subMakeQTree(matrix:List[List[Int]], coords: Coords): QTree[Coords] = {
 
@@ -49,7 +51,7 @@ object Manipulation {
    * *********************************************************************/
 
   def makeBitMap(tree: QTree[Coords]): List[List[Int]] = {
-    val imgCoords = Utils.getRootCoords(tree)
+    val imgCoords = getRootCoords(tree)
     val newList = List.fill(imgCoords._2._1 + 1)(List())
     subMakeBitMap(tree, newList)
   }
@@ -76,10 +78,10 @@ object Manipulation {
         // then 2nd, 3rd and 4th by this specific order
         // Once it got to the fourth (last one) it can return
 
-        val a = subMakeBitMap(getQuad1(t),list)
-        val b = subMakeBitMap(getQuad2(t),a)
-        val c = subMakeBitMap(getQuad3(t),b)
-        subMakeBitMap(getQuad4(t),c)
+        val a = subMakeBitMap(getQuad(t,1),list)
+        val b = subMakeBitMap(getQuad(t,2),a)
+        val c = subMakeBitMap(getQuad(t,3),b)
+        subMakeBitMap(getQuad(t,4),c)
 
     }
   }

@@ -14,47 +14,68 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="281.0" prefWidth="672.0" style="-fx-background-color: #eeeeee;">
                      <children>
                         <Button id="importImgs" fx:id="importImgs" layoutX="748.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onImportClicked" prefWidth="44.0" style="-fx-background-color: transparent; -fx-text-base-color: #00adb5; -fx-border-color: #00adb5; -fx-border-width: 1; -fx-font-family: Verdana; -fx-border-radius: 0; -fx-padding: 5; -fx-pref-width: 100; -fx-pref-height: 35;" text="Importar ➕" />
-                        <Button fx:id="deleteButton" layoutX="23.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onDeleteClicked" prefWidth="94.0" style="-fx-pref-width: 100; -fx-pref-height: 30; -fx-background-color: red; -fx-text-fill: white; -fx-border-radius: 0; -fx-font-family: Verdana;" text="Apagar ✖" />
-                        <Button fx:id="rotateImgLeftRightButton" layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onRotateImgLeftClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-width: 35; -fx-pref-height: 35;" text="⭯" />
-                        <Button fx:id="invertImgVButton" layoutX="685.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onInvertImgVClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="↕" />
-                        <Label layoutX="909.0" layoutY="23.0" text="Descrição" textFill="#393e46" />
+                        <Button fx:id="deleteButton" layoutX="37.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onDeleteClicked" prefWidth="94.0" style="-fx-pref-width: 100; -fx-pref-height: 30; -fx-background-color: red; -fx-text-fill: white; -fx-border-radius: 0; -fx-font-family: Verdana;" text="Apagar ✖" />
+                        <Button fx:id="rotateImgLeftRightButton" layoutX="371.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onRotateImgLeftClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-width: 35; -fx-pref-height: 35;" text="⭯" />
+                        <Button fx:id="invertImgVButton" layoutX="545.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onInvertImgVClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="↕" />
+                        <Label layoutX="950.0" layoutY="31.0" text="Descrição" textFill="#393e46" />
                         <Button fx:id="nextButton" layoutX="818.0" layoutY="184.0" mnemonicParsing="false" onMouseClicked="#onNextClicked" prefWidth="16.0" style="-fx-text-fill: #00adb5; -fx-background-color: transparent; -fx-font-size: 15; -fx-pref-height: 100; -fx-border-color: #00adb5; -fx-border-radius: 30;" text="▶" />
                         <Button fx:id="prevButton" layoutX="23.0" layoutY="184.0" mnemonicParsing="false" onMouseClicked="#onPrevClicked" style="-fx-background-color: transparent; -fx-border-color: #00adb5; -fx-text-fill: #00adb5; -fx-pref-height: 100; -fx-font-size: 15; -fx-border-radius: 30;" text="◀" />
-                        <Button fx:id="sepiaImgButton" layoutX="545.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onSepiaImgClicked" prefHeight="21.0" prefWidth="77.0" style="-fx-background-color: #393e46; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #393e46; -fx-font-family: Verdana; -fx-pref-height: 30; -fx-pref-width: 80;" text="Sépia" />
-                        <Button fx:id="contrastImgButton" layoutX="645.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onConstrastImgClicked" style="-fx-font-family: Verdana; -fx-background-color: #393e46; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #393e46; -fx-pref-height: 30; -fx-pref-width: 80;" text="Contraste" />
-                        <Button fx:id="noiseImgButton" layoutX="738.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onNoiseImgClicked" style="-fx-font-family: Verdana; -fx-background-color: #393e46; -fx-border-color: #393e46; -fx-text-fill: white; -fx-border-radius: 0; -fx-pref-height: 30; -fx-pref-width: 80;" text="Ruído" />
-                        <Separator layoutX="871.0" layoutY="1.0" orientation="VERTICAL" prefHeight="596.0" prefWidth="2.0" />
-                        <Button fx:id="invertImgHButton" layoutX="634.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onInvertImgHClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="↔" />
-                      <Button fx:id="rotateImgRightButton" layoutX="585.0" layoutY="14.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onRotateImgRightClicked" prefHeight="30.0" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-width: 35; -fx-pref-height: 35;" text="⭮" />
+                        <Separator layoutX="871.0" layoutY="1.0" orientation="VERTICAL" prefHeight="553.0" prefWidth="4.0" />
+                        <Button fx:id="invertImgHButton" layoutX="484.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onInvertImgHClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="↔" />
+                      <Button fx:id="rotateImgRightButton" layoutX="427.0" layoutY="14.0" minWidth="30.0" mnemonicParsing="false" onMouseClicked="#onRotateImgRightClicked" prefHeight="30.0" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-width: 35; -fx-pref-height: 35;" text="⭮" />
                         <Separator layoutX="-3.0" layoutY="74.0" prefHeight="0.0" prefWidth="875.0" />
                         <Separator layoutX="-3.0" layoutY="423.0" prefHeight="1.0" prefWidth="876.0" />
-                        <Label layoutX="73.0" layoutY="17.0" text="Photo Album" textFill="#393e46">
+                        <Label layoutX="38.0" layoutY="16.0" text="Photo Album" textFill="#393e46">
                            <font>
                               <Font name="Lucida Handwriting Italic" size="31.0" />
                            </font>
                         </Label>
-                        <Separator layoutX="63.0" layoutY="61.0" prefWidth="200.0" />
+                        <Separator layoutX="28.0" layoutY="60.0" prefWidth="200.0" />
                         <Region layoutX="570.0" layoutY="134.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
                         <Region layoutX="123.0" layoutY="134.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
                         <Region layoutX="345.0" layoutY="114.0" prefHeight="242.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #aad8d3; -fx-border-width: 5;" />
                         <ImageView fx:id="img3" fitHeight="199.0" fitWidth="199.0" layoutX="570.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="img2" fitHeight="232.0" fitWidth="190.0" layoutX="350.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
                         <ImageView fx:id="img1" fitHeight="200.0" fitWidth="200.0" layoutX="123.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" />
-                        <Button fx:id="scaleUpImgButton" layoutX="484.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onScaleUpImgClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="⤢" />
-                        <Button fx:id="scaleDownImgButton" layoutX="297.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#onScaleDownImgClicked" text="Button" />
+                        <Button fx:id="scaleUpImgButton" layoutX="309.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onScaleUpImgClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="⤢" />
                         <TextArea fx:id="imgDescription" layoutX="892.0" layoutY="70.0" prefHeight="134.0" prefWidth="168.0" />
-                        <Button layoutX="950.0" layoutY="221.0" mnemonicParsing="false" onMouseClicked="#onUpdateDescriptionClicked" text="Atualizar" />
-                        <Button layoutX="435.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onRightSwitchClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="⥂" />
-                        <Button layoutX="388.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onLeftSwitchClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-border-radius: 0; -fx-border-color: #00adb5; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="⥃" />
+                        <Button layoutX="936.0" layoutY="220.0" mnemonicParsing="false" onMouseClicked="#onUpdateDescriptionClicked" style="-fx-background-color: #00adb5; -fx-pref-height: 30; -fx-pref-width: 80;" text="Atualizar" textFill="WHITE">
+                           <font>
+                              <Font name="Verdana" size="12.0" />
+                           </font></Button>
+                        <Button layoutX="570.0" layoutY="364.0" mnemonicParsing="false" onMouseClicked="#onRightSwitchClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="⥂" />
+                        <Button layoutX="287.0" layoutY="364.0" mnemonicParsing="false" onMouseClicked="#onLeftSwitchClicked" style="-fx-background-color: #00adb5; -fx-text-fill: white; -fx-font-family: Verdana; -fx-font-size: 14; -fx-pref-height: 35; -fx-pref-width: 35;" text="⥃" />
+                        <Label fx:id="imgSizeLabel" layoutX="350.0" layoutY="88.0" prefHeight="18.0" prefWidth="190.0" style="-fx-text-alignment: center;" />
+                        <Separator layoutX="874.0" layoutY="298.0" prefHeight="2.0" prefWidth="211.0" />
+                        <Label layoutX="936.0" layoutY="334.0" text="Menores que..." />
+                        <TextField fx:id="widthSizeInput" layoutX="908.0" layoutY="378.0" prefHeight="26.0" prefWidth="56.0" />
+                        <TextField fx:id="heightSizeInput" layoutX="989.0" layoutY="378.0" prefHeight="26.0" prefWidth="54.0" />
+                        <Label layoutX="973.0" layoutY="382.0" text="x" />
+                        <Button layoutX="936.0" layoutY="426.0" mnemonicParsing="false" onMouseClicked="#onSizeSmallerThanClicked" style="-fx-background-color: #00adb5; -fx-pref-height: 30; -fx-pref-width: 80;" text="Filtrar" textFill="WHITE">
+                           <font>
+                              <Font name="Verdana" size="12.0" />
+                           </font>
+                        </Button>
+                        <Label layoutX="477.0" layoutY="566.0" text="© Powered by Grupo 18" />
+                        <Separator layoutX="-2.0" layoutY="555.0" prefHeight="0.0" prefWidth="1084.0" />
+                        <ImageView fx:id="logo" fitHeight="23.0" fitWidth="159.0" layoutX="14.0" layoutY="562.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Content/logo-iscte.png" />
+                           </image></ImageView>
+                        <Label layoutX="1021.0" layoutY="566.0" text="2020/21" />
+                        <Button fx:id="contrastImgButton" layoutX="227.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onConstrastImgClicked" prefWidth="117.0" style="-fx-font-family: Verdana; -fx-background-color: #393e46; -fx-text-fill: white; -fx-pref-height: 30; -fx-pref-width: 120;" text="Contraste" />
+                        <Button fx:id="noiseImgButton" graphicTextGap="10.0" layoutX="563.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onNoisePureImgClicked" style="-fx-font-family: Verdana; -fx-background-color: #393e46; -fx-text-fill: white; -fx-pref-height: 30; -fx-pref-width: 120;" text="Ruído Puro" />
+                        <Button fx:id="sepiaImgButton" graphicTextGap="10.0" layoutX="366.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onSepiaImgClicked" prefHeight="21.0" prefWidth="96.0" style="-fx-background-color: #393e46; -fx-text-fill: white; -fx-font-family: Verdana; -fx-pref-height: 30; -fx-pref-width: 80;" text="Sépia" />
+                        <Button fx:id="noiseImgButton1" graphicTextGap="10.0" layoutX="462.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#onNoiseImgClicked" style="-fx-font-family: Verdana; -fx-background-color: #393e46; -fx-text-fill: white; -fx-pref-height: 30; -fx-pref-width: 80;" text="Ruído" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab style="-fx-background-color: #eeeeee; -fx-text-base-color: #282828; -fx-pref-width: 90; -fx-font-family: Verdana;" text="Grelha">
+          <Tab fx:id="gridId" onSelectionChanged="#onGridTabClicked" style="-fx-background-color: #eeeeee; -fx-text-base-color: #282828; -fx-pref-width: 90; -fx-font-family: Verdana;" text="Grelha">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #eeeeee;">
                      <children>
-                        <GridPane layoutX="90.0" layoutY="41.0" prefHeight="279.0" prefWidth="467.0">
+                        <GridPane layoutX="109.0" layoutY="44.0" prefHeight="479.0" prefWidth="876.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -64,7 +85,31 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
+                           <children>
+                              <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #aad8d3;" />
+                              <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #aad8d3;" GridPane.columnIndex="1" />
+                              <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #aad8d3;" GridPane.rowIndex="1" />
+                              <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #aad8d3;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #aad8d3;" GridPane.rowIndex="2" />
+                              <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #aad8d3;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <ImageView fx:id="gridImg1" fitHeight="157.0" fitWidth="452.0" pickOnBounds="true" preserveRatio="true" style="-fx-spacing: 10;" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <ImageView fx:id="gridImg2" fitHeight="159.0" fitWidth="455.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <ImageView fx:id="gridImg3" fitHeight="156.0" fitWidth="454.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <ImageView fx:id="gridImg4" fitHeight="156.0" fitWidth="455.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <ImageView fx:id="gridImg5" fitHeight="157.0" fitWidth="454.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                              <ImageView fx:id="gridImg6" fitHeight="157.0" fitWidth="457.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                           </children>
                         </GridPane>
+                        <Separator layoutY="555.0" prefHeight="3.0" prefWidth="1084.0" />
+                        <Label layoutX="477.0" layoutY="566.0" text="© Powered by Grupo 18" />
+                        <Button layoutX="51.0" layoutY="234.0" mnemonicParsing="false" onMouseClicked="#onPrevGridClicked" style="-fx-text-fill: #00adb5; -fx-background-color: transparent; -fx-font-size: 15; -fx-pref-height: 100; -fx-border-color: #00adb5; -fx-border-radius: 30;" text="◀" />
+                        <Button layoutX="1011.0" layoutY="234.0" mnemonicParsing="false" onMouseClicked="#onNextGridClicked" style="-fx-text-fill: #00adb5; -fx-background-color: transparent; -fx-font-size: 15; -fx-pref-height: 100; -fx-border-color: #00adb5; -fx-border-radius: 30;" text="▶" />
+                        <ImageView fitHeight="23.0" fitWidth="146.0" layoutX="14.0" layoutY="563.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Content/logo-iscte.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1019.0" layoutY="566.0" text="2020/21" />
                      </children></AnchorPane>
             </content>
           </Tab>

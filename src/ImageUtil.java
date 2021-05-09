@@ -162,29 +162,8 @@ class ImageUtil {
         }
     }
 
-    // Just testing things out ...
-    private static void PrintDummie(){
-        // Given image with 4 colors
-        String imagePath = "C:\\Users\\const\\IdeaProjects\\Photo_Album\\src\\rgbColors.png";
-
-        // BitMap
-        int[][] result = readColorImage(imagePath);
-
-        // Print each color rgb from the generated bitmap
-        for (int row=0; row < result.length; row++) {
-            for (int col=0; col < result[row].length; col++) {
-
-                int value = result[row][col]; // Colors are encoded as 32-bit integers
-                int[] rgb = decodeRgb(value); // Get encoded color rgb
-
-                System.out.println("rgb("+rgb[0]+","+rgb[1]+","+rgb[2]+")");
-            }
-        }
-    }
-
 
 
     public static void main(String[] args){
-        PrintDummie();
     }
 }
